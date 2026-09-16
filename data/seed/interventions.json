@@ -1,0 +1,74 @@
+[
+  {
+    "id": "agroforestry",
+    "name": "Agroforestry integration (trees/shrubs within cropland)",
+    "description": "Introduce trees or woody perennials into or alongside cropland to add structural and vegetational complexity to the farming system.",
+    "target_metrics": ["habitat_diversity", "species_richness", "soil_organic_carbon"],
+    "prerequisites": ["Land tenure/permission to plant perennial woody species", "Baseline habitat_diversity or species_richness measurement recommended before planting"],
+    "constraints": {"water_sensitive_establishment": true, "labor_intensive_establishment": true},
+    "ecosystem_context": ["agricultural", "semi-arid", "temperate", "tropical"],
+    "source_claim_ids": ["e10", "e10b", "e20"],
+    "water_sensitivity": "high",
+    "typical_time_horizon": "long"
+  },
+  {
+    "id": "crop_diversification_intercropping",
+    "name": "Crop diversification / intercropping",
+    "description": "Grow two or more crop species together in the same field (spatially or in rotation) instead of a single monoculture crop.",
+    "target_metrics": ["beneficial_arthropod_abundance", "species_richness"],
+    "prerequisites": ["Compatible companion crop identified for the region and target crop", "Assessment of market/logistics for a second crop"],
+    "constraints": {"water_sensitive_establishment": false, "may_require_new_equipment_or_markets": true},
+    "ecosystem_context": ["agricultural", "cropland"],
+    "source_claim_ids": ["e9"],
+    "water_sensitivity": "low",
+    "typical_time_horizon": "short"
+  },
+  {
+    "id": "cover_cropping_soil_organic_matter_management",
+    "name": "Cover cropping / soil organic matter management",
+    "description": "Plant non-cash cover crops between main crop cycles to protect and potentially build soil organic matter.",
+    "target_metrics": ["soil_organic_carbon", "soil_moisture"],
+    "prerequisites": ["Suitable cover crop species for climate and rotation window", "Seed availability and budget"],
+    "constraints": {"water_sensitive_establishment": true},
+    "ecosystem_context": ["agricultural", "cropland"],
+    "source_claim_ids": ["e17"],
+    "water_sensitivity": "medium",
+    "typical_time_horizon": "medium"
+  },
+  {
+    "id": "native_hedgerow_habitat_strips",
+    "name": "Native hedgerow / field-margin habitat strips",
+    "description": "Establish strips of native shrubs and perennial vegetation along field margins to add semi-natural habitat elements to the landscape.",
+    "target_metrics": ["habitat_diversity", "species_richness"],
+    "prerequisites": ["Field margin space available", "Access to native plant stock"],
+    "constraints": {"water_sensitive_establishment": true, "reduces_cropped_area_slightly": true},
+    "ecosystem_context": ["agricultural landscapes"],
+    "source_claim_ids": ["e18", "e21"],
+    "water_sensitivity": "medium",
+    "typical_time_horizon": "medium"
+  },
+  {
+    "id": "water_harvesting_soil_moisture_conservation",
+    "name": "Water harvesting & soil moisture conservation (contour bunds, mulching, micro-catchments)",
+    "description": "Use low-cost earthworks (contour bunds, micro-catchments) and mulching to capture and retain rainfall on-site, improving soil moisture available to plants.",
+    "target_metrics": ["soil_moisture", "vegetation_establishment"],
+    "prerequisites": ["Basic land-shaping labor/equipment", "Suitable slope and soil type for chosen structure"],
+    "constraints": {"water_sensitive_establishment": false, "labor_for_construction": true},
+    "ecosystem_context": ["semi-arid", "arid", "dryland agriculture"],
+    "source_claim_ids": ["e19"],
+    "water_sensitivity": "low",
+    "typical_time_horizon": "short"
+  },
+  {
+    "id": "integrated_pest_management",
+    "name": "Integrated pest management (reduced/targeted pesticide use)",
+    "description": "Replace routine broad-spectrum pesticide applications with monitoring-based, targeted interventions combining biological, cultural, and chemical controls.",
+    "target_metrics": ["beneficial_arthropod_abundance", "species_richness"],
+    "prerequisites": ["Pest monitoring capacity or training", "Access to biological/cultural control options"],
+    "constraints": {"water_sensitive_establishment": false, "requires_monitoring_effort": true},
+    "ecosystem_context": ["agricultural", "cropland"],
+    "source_claim_ids": ["e12", "e11"],
+    "water_sensitivity": "low",
+    "typical_time_horizon": "short"
+  }
+]

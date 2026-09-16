@@ -1,0 +1,11 @@
+{
+  "_comment": "Illustrative input adapted from the Darukaa.Earth challenge brief. These are NOT real field measurements — they are a challenge-provided illustrative scenario used to demonstrate the reasoning pipeline.",
+  "name": "Illustrative semi-arid wheat plot (challenge demo scenario)",
+  "region": "Semi-arid region (unspecified, illustrative)",
+  "ecosystem_type": "semi-arid agricultural drylands",
+  "land_use_type": "monoculture wheat cropland",
+  "soil_organic_carbon": 0.3,
+  "rainfall_qualitative": "low",
+  "data_source": "challenge_illustrative_example",
+  "notes": "Illustrative challenge scenario: soil organic carbon 0.3%, low rainfall, monoculture wheat, semi-arid region. Not a real measured field."
+}

@@ -1,0 +1,18 @@
+{
+  "id": "semiarid_wheat",
+  "description": "The challenge's illustrative demo scenario.",
+  "profile": {
+    "name": "Semi-arid wheat plot",
+    "ecosystem_type": "semi-arid",
+    "land_use_type": "monoculture wheat cropland",
+    "soil_organic_carbon": 0.3,
+    "rainfall_qualitative": "low",
+    "biodiversity_indicators": {"reported_trend": "declining"}
+  },
+  "expect": {
+    "min_variables_considered": 3,
+    "min_recommendations": 1,
+    "must_mention_any_recommendation_title_containing": ["Agroforestry", "Cover cropping", "Water harvesting", "Crop diversification", "hedgerow"],
+    "insufficient_data_expected": false
+  }
+}

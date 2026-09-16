@@ -1,0 +1,19 @@
+{
+  "id": "deforestation_pressure",
+  "description": "Tropical-adjacent land with reported deforestation and pesticide pressure -- tests human-impact concern detection distinct from the water-scarcity scenario.",
+  "profile": {
+    "name": "Forest-edge smallholding",
+    "ecosystem_type": "tropical",
+    "land_use_type": "monoculture cropland",
+    "rainfall_qualitative": "high",
+    "temperature_c": 27,
+    "human_impact_indicators": {"deforestation": true, "pesticide_use": true},
+    "biodiversity_indicators": {"reported_trend": "declining"}
+  },
+  "expect": {
+    "min_variables_considered": 3,
+    "min_recommendations": 1,
+    "must_mention_any_recommendation_title_containing": ["Agroforestry", "hedgerow", "pest management"],
+    "insufficient_data_expected": false
+  }
+}

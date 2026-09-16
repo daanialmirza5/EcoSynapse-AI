@@ -1,0 +1,14 @@
+{
+  "id": "insufficient_data",
+  "description": "Only one variable known -- the system must refuse to force a shallow answer.",
+  "profile": {
+    "name": "Barely described plot",
+    "region": "Unspecified"
+  },
+  "expect": {
+    "min_variables_considered": 0,
+    "min_recommendations": 0,
+    "must_mention_any_recommendation_title_containing": [],
+    "insufficient_data_expected": true
+  }
+}
