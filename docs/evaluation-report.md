@@ -86,6 +86,13 @@ unverified risk of breaking navigation across the entire app. **Deferred as
 a documented follow-up** (see `docs/team-handoff.md`) rather than silently
 ignored or force-upgraded without verification.
 
+## Dependency vulnerability scan (`pip-audit`, apps/api)
+
+Ran `pip-audit` on 2026-09-18 against the installed backend environment:
+**no known vulnerabilities found** across all resolved dependencies
+(FastAPI, SQLAlchemy, Alembic, Pydantic, psycopg, networkx, httpx, uvicorn,
+and their transitive dependencies).
+
 ## What was not measured
 
 - Retrieval precision/recall against human relevance judgments (no labeled
@@ -93,4 +100,3 @@ ignored or force-upgraded without verification.
 - Load/concurrency behavior under production-scale traffic (never deployed
   to real traffic).
 - A full penetration test.
-- `pip-audit` on the backend's Python dependencies (not run in this pass).

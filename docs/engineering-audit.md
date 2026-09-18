@@ -43,5 +43,4 @@ Severity key: **CRITICAL** (breaks core function or is unsafe) / **HIGH**
 
 - A full penetration test (out of scope for a hackathon-timeline audit; the "areas reviewed" section above covers the OWASP-relevant basics that are checkable by code inspection).
 - Load/performance testing under concurrent load (the app has never been exposed to production traffic; no data exists to report here, and fabricating numbers would violate this project's own scientific-integrity standard applied to itself).
-- A full `pip-audit` pass on the backend (not run in this pass).
-- Forcing the `npm audit` fixes below, which all require breaking major-version upgrades -- see `docs/evaluation-report.md` for the exact findings and the reasoning for deferring them rather than force-upgrading React Router with no regression-testing time left.
+- Forcing the `npm audit` fixes below, which all require breaking major-version upgrades -- see `docs/evaluation-report.md` for the exact findings and the reasoning for deferring them rather than force-upgrading React Router with no regression-testing time left. (`pip-audit` was run against the backend: 0 known vulnerabilities.)
