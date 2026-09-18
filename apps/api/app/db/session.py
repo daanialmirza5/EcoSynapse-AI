@@ -10,7 +10,7 @@ from app.core.config import get_settings
 settings = get_settings()
 
 connect_args = {"check_same_thread": False} if settings.is_sqlite else {}
-engine = create_engine(settings.database_url, connect_args=connect_args, future=True)
+engine = create_engine(settings.resolved_database_url, connect_args=connect_args, future=True)
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, future=True)
 
 

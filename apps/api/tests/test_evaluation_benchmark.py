@@ -35,6 +35,9 @@ CASES = _load_cases()
 @pytest.mark.parametrize("case", CASES, ids=[c["id"] for c in CASES])
 def test_evaluation_case(client, case):
     profile = client.post("/api/v1/profiles", json=case["profile"]).json()
+    for obs in case.get("observations", []):
+        obs_resp = client.post(f"/api/v1/profiles/{profile['id']}/observations", json=obs)
+        assert obs_resp.status_code == 201, f"failed to seed observation for case {case['id']}: {obs_resp.text}"
     assessment = client.post("/api/v1/assessments", json={"profile_id": profile["id"]}).json()
     expect = case["expect"]
 
@@ -58,6 +61,8 @@ def test_evaluation_case(client, case):
     for rec in assessment["recommendations"]:
         assert rec["time_horizon"] in ("short", "medium", "long")
         assert rec["confidence"]["level"] in ("low", "medium", "high")
+        assert rec["evidence_strength_summary"] in ("strong", "moderate", "weak", "hypothesis")
+        assert 0.0 <= rec["data_completeness"] <= 1.0
         assert rec["impacted_metrics"]
         assert rec["monitoring_plan"]
 
@@ -73,6 +78,33 @@ def test_evaluation_case(client, case):
     if expect["must_mention_any_recommendation_title_containing"]:
         titles = " | ".join(r["title"] for r in assessment["recommendations"])
         assert any(kw.lower() in titles.lower() for kw in expect["must_mention_any_recommendation_title_containing"])
+
+    # Ecosystem-context mismatches must be surfaced, not silently ignored.
+    if expect.get("expect_ecosystem_mismatch_note"):
+        all_text = " ".join(
+            note
+            for rec in assessment["recommendations"]
+            for note in rec["trade_offs"] + [e.get("applicability_note") or "" for e in rec["evidence"]]
+        )
+        assert "ecosystem" in all_text.lower() or "context" in all_text.lower(), (
+            "Expected at least one recommendation to flag an ecosystem/context mismatch"
+        )
+
+    # A recorded baseline must change the monitoring plan's baseline_requirement
+    # wording for that metric, without ever inventing a numeric target.
+    metric_to_check = expect.get("expect_baseline_recorded_for_metric")
+    if metric_to_check:
+        matching_entries = [
+            m
+            for rec in assessment["recommendations"]
+            for m in rec["monitoring_plan"]
+            if m["metric"] == metric_to_check
+        ]
+        assert matching_entries, f"Expected a monitoring plan entry for {metric_to_check}"
+        for entry in matching_entries:
+            assert "baseline" in entry["baseline_requirement"].lower()
+            assert "recorded" in entry["baseline_requirement"].lower() or "already" in entry["baseline_requirement"].lower()
+            assert entry["target"] is None or "establish a baseline first" not in entry["target"].lower()
 
 
 def test_benchmark_has_multiple_curated_cases():

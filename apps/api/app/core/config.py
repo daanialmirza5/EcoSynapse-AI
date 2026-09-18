@@ -2,7 +2,8 @@
 
 Every external dependency (AI provider, embedding provider, database) is optional
 at startup: the app must boot and serve the deterministic demo experience even
-when no API keys are configured. See app/ai/providers.py for the fallback logic.
+when no API keys are configured. See app/ai/llm.py and app/ai/embeddings.py for
+the fallback logic.
 """
 from __future__ import annotations
 
@@ -46,7 +47,16 @@ class Settings(BaseSettings):
 
     app_secret: str = "dev-secret-change-me"
 
+    # Explicit override for where data/seed/*.json lives. Leave unset for a
+    # local monorepo checkout (path is derived relative to this file); set
+    # this in Docker images that copy the seed data to a fixed location
+    # (see apps/api/Dockerfile).
+    seed_data_dir: str | None = None
+
     max_request_body_bytes: int = 2_000_000
+    # Basic in-memory, single-process rate limit (see app/main.py::InMemoryRateLimiter
+    # for why this doesn't scale across multiple instances). 0 disables it.
+    rate_limit_per_minute: int = 120
 
     @property
     def cors_origin_list(self) -> list[str]:
@@ -55,6 +65,20 @@ class Settings(BaseSettings):
     @property
     def is_sqlite(self) -> bool:
         return self.database_url.startswith("sqlite")
+
+    @property
+    def resolved_database_url(self) -> str:
+        """Normalizes managed-Postgres URLs (Railway, Heroku, etc. commonly
+        hand out a bare ``postgresql://`` or legacy ``postgres://`` URL) to
+        the ``postgresql+psycopg://`` driver this app installs, so pasting a
+        platform-provided connection string just works without manual
+        editing."""
+        url = self.database_url
+        if url.startswith("postgres://"):
+            url = "postgresql+psycopg://" + url[len("postgres://") :]
+        elif url.startswith("postgresql://"):
+            url = "postgresql+psycopg://" + url[len("postgresql://") :]
+        return url
 
 
 @lru_cache

@@ -56,6 +56,14 @@ class RecommendationOut(BaseModel):
     feasibility_constraints: list[str]
     trade_offs: list[str]
     confidence: ConfidenceOut
+    evidence_strength_summary: str = Field(
+        description="Raw average evidence-strength label (strong/moderate/weak/hypothesis) behind the "
+        "confidence judgement above -- kept distinct so a caller can see the underlying evidence quality "
+        "separately from how constraints/context adjusted the final confidence."
+    )
+    data_completeness: float = Field(
+        ge=0, le=1, description="Fraction of core profile fields known at assessment time (see clarify.py)."
+    )
     evidence: list[EvidenceRef]
     monitoring_plan: list[MonitoringPlanItem]
     heuristic_score: dict[str, Any] = Field(default_factory=dict)

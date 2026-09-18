@@ -13,6 +13,8 @@ const sampleRec: RecommendationOut = {
   feasibility_constraints: [],
   trade_offs: ["Meta-analytic average effect; magnitude varies."],
   confidence: { level: "medium", reason: "Average supporting evidence strength is moderate." },
+  evidence_strength_summary: "moderate",
+  data_completeness: 0.56,
   evidence: [
     {
       claim: "Intercropping increases beneficial arthropod abundance.",
@@ -54,6 +56,13 @@ describe("RecommendationCard", () => {
     expect(screen.getByText(sampleRec.title)).toBeInTheDocument();
     expect(screen.getByText(/medium confidence/i)).toBeInTheDocument();
     expect(screen.queryByText(/Claim-level evidence/i)).not.toBeInTheDocument();
+  });
+
+  it("reports confidence, evidence strength, and data completeness as distinct values", () => {
+    render(<RecommendationCard rec={sampleRec} />);
+    expect(screen.getByText(/medium confidence/i)).toBeInTheDocument();
+    expect(screen.getByText(/evidence: moderate/i)).toBeInTheDocument();
+    expect(screen.getByText(/56%/)).toBeInTheDocument();
   });
 
   it("never invents a numeric monitoring target when none is established", () => {

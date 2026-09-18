@@ -21,11 +21,53 @@ jobs:
         run: pip install -e ".[dev]"
       - name: Lint (ruff)
         run: ruff check app tests
+      - name: Validate knowledge corpus
+        working-directory: .
+        run: python scripts/validate_knowledge.py
       - name: Run migrations against a throwaway sqlite DB
         run: |
           rm -f ci_check.db
           DATABASE_URL=sqlite:///./ci_check.db alembic upgrade head
       - name: Run backend tests
+        run: pytest -q
+
+  # SQLite does not enforce declared VARCHAR lengths, so a column-width bug
+  # (found during manual Docker/Postgres verification: monitoring_plans.unit
+  # was too narrow for real generated text) is invisible in the sqlite-only
+  # job above. This job runs the full suite against real Postgres so that
+  # class of bug fails CI instead of only surfacing in production.
+  backend-postgres:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/api
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: ecosynapse
+          POSTGRES_PASSWORD: ecosynapse
+          POSTGRES_DB: ecosynapse
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ecosynapse"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql+psycopg://ecosynapse:ecosynapse@localhost:5432/ecosynapse
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+      - name: Install dependencies (incl. postgres driver)
+        run: pip install -e ".[dev,postgres]"
+      - name: Run migrations against real Postgres
+        run: alembic upgrade head
+      - name: Run backend tests against real Postgres
         run: pytest -q
 
   frontend:

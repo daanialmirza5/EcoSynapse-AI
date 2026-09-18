@@ -53,6 +53,13 @@ class Recommendation(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     trade_offs: Mapped[list[str]] = mapped_column(JSON, default=list)
     confidence_level: Mapped[str] = mapped_column(String(20), default="low")  # low|medium|high
     confidence_reason: Mapped[str] = mapped_column(Text, default="")
+    # Distinct from confidence_level: the raw average evidence-strength label
+    # (strong|moderate|weak|hypothesis) behind that confidence judgement, and
+    # the profile's data completeness at assessment time -- see
+    # docs/reasoning-methodology.md "The confidence system" for why these are
+    # kept separate rather than folded into one opaque number.
+    evidence_strength_summary: Mapped[str] = mapped_column(String(20), default="hypothesis")
+    data_completeness: Mapped[float] = mapped_column(default=0.0)
     evidence: Mapped[list[dict[str, Any]]] = mapped_column(JSON, default=list)
     heuristic_score: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict)
     status: Mapped[str] = mapped_column(String(30), default="proposed")

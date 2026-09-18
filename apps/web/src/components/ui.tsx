@@ -65,6 +65,21 @@ export function TimeHorizonBadge({ horizon }: { horizon: string }) {
   return <span className={`badge ${HORIZON_COLORS[horizon] || "bg-stone-100 text-stone-700"}`}>{horizon} term</span>;
 }
 
+const STRENGTH_COLORS: Record<string, string> = {
+  strong: "bg-eco-100 text-eco-800",
+  moderate: "bg-sky-100 text-sky-800",
+  weak: "bg-amber-100 text-amber-800",
+  hypothesis: "bg-stone-200 text-stone-700",
+};
+
+export function EvidenceStrengthBadge({ strength }: { strength: string }) {
+  return (
+    <span className={`badge ${STRENGTH_COLORS[strength] || "bg-stone-100 text-stone-700"}`}>
+      evidence: {strength}
+    </span>
+  );
+}
+
 export function ClaimTypeBadge({ type }: { type: string }) {
   const colors: Record<string, string> = {
     source_supported: "bg-eco-100 text-eco-800",

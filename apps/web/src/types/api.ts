@@ -151,6 +151,8 @@ export interface RecommendationOut {
   feasibility_constraints: string[];
   trade_offs: string[];
   confidence: { level: "low" | "medium" | "high"; reason: string };
+  evidence_strength_summary: string;
+  data_completeness: number;
   evidence: EvidenceRef[];
   monitoring_plan: MonitoringPlanItem[];
   heuristic_score: {
@@ -199,5 +201,6 @@ export interface HealthStatus {
   database: string;
   llm_provider: string;
   embedding_provider: string;
+  notes: string[];
   knowledge_base: { sources: number; graph_nodes: number; graph_edges: number };
 }

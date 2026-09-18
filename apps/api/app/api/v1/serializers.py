@@ -23,6 +23,8 @@ def serialize_recommendation(rec: Recommendation) -> RecommendationOut:
         feasibility_constraints=rec.feasibility_constraints,
         trade_offs=rec.trade_offs,
         confidence=ConfidenceOut(level=rec.confidence_level, reason=rec.confidence_reason),
+        evidence_strength_summary=rec.evidence_strength_summary,
+        data_completeness=rec.data_completeness,
         evidence=[
             EvidenceRef(
                 claim=e.get("claim_text", ""),

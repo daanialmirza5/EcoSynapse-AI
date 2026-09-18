@@ -1,6 +1,12 @@
 import { useState } from "react";
 import type { RecommendationOut } from "../../types/api";
-import { ClaimTypeBadge, ConfidenceBadge, EvidenceStatusBadge, TimeHorizonBadge } from "../../components/ui";
+import {
+  ClaimTypeBadge,
+  ConfidenceBadge,
+  EvidenceStatusBadge,
+  EvidenceStrengthBadge,
+  TimeHorizonBadge,
+} from "../../components/ui";
 
 export default function RecommendationCard({ rec }: { rec: RecommendationOut }) {
   const [expanded, setExpanded] = useState(false);
@@ -12,12 +18,19 @@ export default function RecommendationCard({ rec }: { rec: RecommendationOut }) 
         <div className="flex gap-2 flex-wrap">
           <TimeHorizonBadge horizon={rec.time_horizon} />
           <ConfidenceBadge level={rec.confidence.level} />
+          <EvidenceStrengthBadge strength={rec.evidence_strength_summary} />
         </div>
       </div>
 
       <p className="text-sm text-stone-700 mt-2"><span className="font-medium">What to do: </span>{rec.what_to_do}</p>
       <p className="text-sm text-stone-700 mt-1"><span className="font-medium">Why it may work: </span>{rec.why_it_may_work}</p>
-      <p className="text-xs text-stone-500 mt-1">{rec.confidence.reason}</p>
+      <p className="text-xs text-stone-500 mt-1">
+        {rec.confidence.reason} Data completeness at assessment time: {Math.round(rec.data_completeness * 100)}%.
+      </p>
+      <p className="text-[11px] text-stone-400 mt-1">
+        Confidence, evidence strength, and data completeness are reported separately by design &mdash; see{" "}
+        <a href="/docs" className="underline">Methodology</a> for how each is calculated.
+      </p>
 
       <div className="mt-3 flex flex-wrap gap-1.5">
         {rec.impacted_metrics.map((m) => (

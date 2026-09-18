@@ -1,0 +1,18 @@
+{
+  "id": "strong_evidence_intercropping",
+  "description": "Monoculture land use with otherwise adequate rainfall/soil -- should surface crop diversification with genuinely moderate, source-supported evidence rather than only weak/hypothesis candidates.",
+  "profile": {
+    "name": "Temperate monoculture maize field",
+    "ecosystem_type": "temperate",
+    "land_use_type": "monoculture cropland",
+    "rainfall_qualitative": "medium",
+    "soil_organic_carbon": 2.1,
+    "biodiversity_indicators": {"reported_trend": "declining"}
+  },
+  "expect": {
+    "min_variables_considered": 3,
+    "min_recommendations": 1,
+    "must_mention_any_recommendation_title_containing": ["Crop diversification"],
+    "insufficient_data_expected": false
+  }
+}

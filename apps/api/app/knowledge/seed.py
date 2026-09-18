@@ -13,6 +13,7 @@ from pathlib import Path
 from sqlalchemy.orm import Session
 
 from app.ai.embeddings import get_embedding_provider
+from app.core.config import get_settings
 from app.models.evidence import EvidenceChunk, ScientificClaim, ScientificSource
 from app.models.intervention import Intervention
 from app.models.knowledge import KnowledgeEdge, KnowledgeNode
@@ -21,6 +22,21 @@ logger = logging.getLogger(__name__)
 
 
 def _data_dir() -> Path:
+    """Locates data/seed/.
+
+    Deployment layouts differ in how many directory levels separate this
+    file from the repo's data/ folder (a plain monorepo checkout vs. a
+    Docker image with its own COPY layout), so a fixed number of
+    ``.parents[N]`` hops is fragile -- it previously broke silently inside
+    Docker (IndexError, caught and swallowed by the startup lifespan's
+    generic except, resulting in an app that boots with an EMPTY knowledge
+    base and no visible error). ``SEED_DATA_DIR`` lets a deployment say
+    explicitly where it put the data; the monorepo-relative guess remains
+    the default for local/dev checkouts.
+    """
+    configured = get_settings().seed_data_dir
+    if configured:
+        return Path(configured)
     # apps/api/app/knowledge/seed.py -> repo_root/data/seed
     return Path(__file__).resolve().parents[4] / "data" / "seed"
 

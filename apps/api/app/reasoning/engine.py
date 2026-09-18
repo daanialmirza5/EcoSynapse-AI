@@ -16,6 +16,7 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
+from app.conversations.clarify import profile_completeness
 from app.evidence.verification import verify_claim
 from app.knowledge.graph import build_graph, find_paths
 from app.models.evidence import EvidenceChunk, ScientificClaim, ScientificSource
@@ -61,6 +62,8 @@ class RecommendationBuild:
     trade_offs: list[str]
     confidence_level: str
     confidence_reason: str
+    evidence_strength_summary: str
+    data_completeness: float
     evidence: list[dict[str, Any]]
     heuristic_score: dict[str, Any]
     monitoring_plan: list[dict[str, Any]]
@@ -245,6 +248,8 @@ def _build_recommendation(
         trade_offs=trade_offs,
         confidence_level=confidence_level,
         confidence_reason=confidence_reason,
+        evidence_strength_summary=avg_strength_label,
+        data_completeness=profile_completeness(profile),
         evidence=evidence_rows,
         heuristic_score=heuristic,
         monitoring_plan=monitoring_plan,
@@ -404,6 +409,8 @@ def run_assessment(
             trade_offs=built.trade_offs,
             confidence_level=built.confidence_level,
             confidence_reason=built.confidence_reason,
+            evidence_strength_summary=built.evidence_strength_summary,
+            data_completeness=built.data_completeness,
             evidence=built.evidence,
             heuristic_score=built.heuristic_score,
         )

@@ -14,9 +14,15 @@ class MonitoringPlan(Base, UUIDPrimaryKeyMixin):
     baseline_requirement: Mapped[str] = mapped_column(Text, nullable=False)
     target: Mapped[str | None] = mapped_column(Text, nullable=True)
     measurement_method: Mapped[str] = mapped_column(Text, nullable=False)
-    measurement_frequency: Mapped[str] = mapped_column(String(80), nullable=False)
+    # Free-form generated sentences, not a controlled vocabulary -- Text
+    # rather than a bounded VARCHAR. A bounded String(40) here previously
+    # caused a Postgres-only StringDataRightTruncation error for longer unit
+    # descriptions (e.g. "structural/habitat diversity index
+    # (method-dependent)"), invisible under SQLite because SQLite does not
+    # enforce declared VARCHAR length limits at all.
+    measurement_frequency: Mapped[str] = mapped_column(Text, nullable=False)
     time_horizon: Mapped[str] = mapped_column(String(20), default="medium")
-    unit: Mapped[str | None] = mapped_column(String(40), nullable=True)
+    unit: Mapped[str | None] = mapped_column(Text, nullable=True)
     expected_direction: Mapped[str | None] = mapped_column(String(20), nullable=True)  # increase|decrease|stabilize
     success_criteria: Mapped[str | None] = mapped_column(Text, nullable=True)
     uncertainty: Mapped[str | None] = mapped_column(Text, nullable=True)

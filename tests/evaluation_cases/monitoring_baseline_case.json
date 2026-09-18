@@ -1,0 +1,22 @@
+{
+  "id": "monitoring_baseline_case",
+  "description": "Same as the demo scenario, but with a baseline observation already recorded for soil_organic_carbon before the assessment runs -- the monitoring plan for that metric must switch from 'establish a baseline first' to a baseline-comparison statement, still without inventing a numeric target.",
+  "profile": {
+    "name": "Semi-arid wheat plot with recorded baseline",
+    "ecosystem_type": "semi-arid",
+    "land_use_type": "monoculture wheat cropland",
+    "soil_organic_carbon": 0.3,
+    "rainfall_qualitative": "low",
+    "biodiversity_indicators": {"reported_trend": "declining"}
+  },
+  "observations": [
+    {"metric": "soil_organic_carbon", "value": 0.3, "unit": "%", "source": "user_reported"}
+  ],
+  "expect": {
+    "min_variables_considered": 3,
+    "min_recommendations": 1,
+    "must_mention_any_recommendation_title_containing": [],
+    "insufficient_data_expected": false,
+    "expect_baseline_recorded_for_metric": "soil_organic_carbon"
+  }
+}

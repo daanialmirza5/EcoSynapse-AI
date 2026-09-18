@@ -1,0 +1,19 @@
+{
+  "id": "ecosystem_mismatch",
+  "description": "A tropical rainforest profile triggers land-use/SOC concerns whose cataloged evidence was studied in temperate/European agricultural systems -- the system must flag the context mismatch rather than silently applying the evidence as if it transfers directly.",
+  "profile": {
+    "name": "Tropical rainforest-edge plot",
+    "ecosystem_type": "tropical",
+    "land_use_type": "monoculture cropland",
+    "soil_organic_carbon": 0.8,
+    "rainfall_qualitative": "high",
+    "biodiversity_indicators": {"reported_trend": "declining"}
+  },
+  "expect": {
+    "min_variables_considered": 3,
+    "min_recommendations": 1,
+    "must_mention_any_recommendation_title_containing": ["Agroforestry", "Crop diversification", "hedgerow", "Cover cropping"],
+    "insufficient_data_expected": false,
+    "expect_ecosystem_mismatch_note": true
+  }
+}

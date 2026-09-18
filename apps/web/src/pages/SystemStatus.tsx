@@ -24,7 +24,10 @@ export default function SystemStatus() {
         <>
           <Card title="Status">
             <dl className="grid grid-cols-2 gap-4 text-sm">
-              <div><dt className="text-stone-500">Overall</dt><dd className="font-medium">{data.status}</dd></div>
+              <div>
+                <dt className="text-stone-500">Overall</dt>
+                <dd className={`font-medium ${data.status !== "ok" ? "text-amber-700" : ""}`}>{data.status}</dd>
+              </div>
               <div><dt className="text-stone-500">Environment</dt><dd className="font-medium">{data.environment}</dd></div>
               <div><dt className="text-stone-500">Database</dt><dd className="font-medium">{data.database}</dd></div>
               <div><dt className="text-stone-500">LLM provider</dt><dd className="font-medium">{data.llm_provider}</dd></div>
@@ -39,6 +42,14 @@ export default function SystemStatus() {
               <div><dt className="text-stone-500">Graph edges</dt><dd className="font-medium">{data.knowledge_base.graph_edges}</dd></div>
             </dl>
           </Card>
+
+          {data.notes.length > 0 && (
+            <Card title="Active warnings">
+              <ul className="text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-lg p-3 list-disc list-inside space-y-1">
+                {data.notes.map((n, i) => <li key={i}>{n}</li>)}
+              </ul>
+            </Card>
+          )}
 
           <Card title="Demo mode notes">
             <ul className="text-sm text-stone-700 list-disc list-inside space-y-1">

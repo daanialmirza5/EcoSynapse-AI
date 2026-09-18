@@ -10,7 +10,14 @@ import type {
   ScientificSourceOut,
 } from "../types/api";
 
-const API_BASE = "/api/v1";
+// In local dev and same-origin deployments (Docker Compose's nginx proxy),
+// leaving this empty keeps requests relative and works via the dev-server
+// proxy / nginx location blocks. For a split deployment (e.g. a Vercel
+// frontend calling a separately-hosted Railway backend), set
+// VITE_API_BASE_URL at build time to the backend's full origin
+// (e.g. https://ecosynapse-api.up.railway.app) -- see docs/deployment.md.
+const API_ROOT = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
+const API_BASE = `${API_ROOT}/api/v1`;
 
 class ApiError extends Error {
   status: number;
@@ -40,7 +47,7 @@ async function request<T>(path: string, init?: RequestInit, absolute = false): P
 }
 
 export const api = {
-  health: () => request<HealthStatus>("/health", undefined, true),
+  health: () => request<HealthStatus>(`${API_ROOT}/health`, undefined, true),
 
   createConversation: (title?: string) =>
     request<ConversationOut>("/conversations", { method: "POST", body: JSON.stringify({ title }) }),
