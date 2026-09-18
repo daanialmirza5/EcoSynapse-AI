@@ -27,15 +27,15 @@ async function generatePDF() {
     format: 'A4',
     printBackground: true,
     margin: {
-      top: '16mm',
-      right: '15mm',
-      bottom: '16mm',
-      left: '15mm'
+      top: '0mm',
+      right: '0mm',
+      bottom: '12mm',
+      left: '0mm'
     },
     displayHeaderFooter: true,
     headerTemplate: '<div></div>',
     footerTemplate: `
-      <div style="font-family: 'Inter', sans-serif; font-size: 8pt; color: #64748b; width: 100%; display: flex; justify-content: space-between; padding: 0 15mm;">
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 8pt; color: #64748b; width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; padding: 0 15mm;">
         <span>EcoSynapse AI — Official Submission Document</span>
         <span>Page <span class="pageNumber"></span> of <span class="totalPages"></span></span>
       </div>
