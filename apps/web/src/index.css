@@ -10,10 +10,19 @@ body {
   @apply bg-stone-50 text-stone-900 antialiased;
 }
 
-.card {
-  @apply bg-white border border-stone-200 rounded-xl shadow-sm;
-}
+/* @layer components ensures these are placed BEFORE Tailwind's utilities
+   layer regardless of source order, so a plain utility class (e.g.
+   `bg-eco-900` on an element that also has `card`) can override them as
+   expected. Without this, plain CSS written after `@tailwind utilities` in
+   this file wins the cascade by source order even against same-specificity
+   utility classes -- a real bug found via visual review (a dark section
+   using `card bg-eco-900` silently stayed white). */
+@layer components {
+  .card {
+    @apply bg-white border border-stone-200 rounded-xl shadow-sm;
+  }
 
-.badge {
-  @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
 }
