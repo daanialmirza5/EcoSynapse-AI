@@ -7,30 +7,40 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 
-# Databases
+# Databases & local storage
 *.db
 *.sqlite3
 
-# Node
+# Node & frontend builds
 node_modules/
 dist/
+build/
 .vite/
 
-# Env
+# Environment files
 .env
-.env.local
+.env.*
+!.env.example
 
-# Logs / runtime artifacts
+# Logs & runtime artifacts
 *.log
 uvicorn*.log
 vite_*.log
 *.pid
 
-# Screenshots / scratch verification artifacts
-apps/web/screenshots/
+# Test & coverage artifacts
+coverage/
+.coverage
+htmlcov/
 
-# OS / editor
+# Scratch & temporary files
+apps/web/screenshots/
+*.tmp
+*.temp
+
+# OS & editor files
 .DS_Store
+Thumbs.db
 .idea/
 .vscode/*
 !.vscode/extensions.json
