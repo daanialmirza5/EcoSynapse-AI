@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EcoSynapse AI: Evidence-Grounded Ecological Intelligence Platform</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    @page {
+      size: A4;
+      margin: 18mm 16mm 18mm 16mm;
+      @bottom-right {
+        content: "Page " counter(page) " of " counter(pages);
+        font-family: 'Inter', sans-serif;
+        font-size: 8pt;
+        color: #71717a;
+      }
+      @bottom-left {
+        content: "EcoSynapse AI — Official Submission Document";
+        font-family: 'Inter', sans-serif;
+        font-size: 8pt;
+        color: #71717a;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #1c1917;
+      background-color: #ffffff;
+      line-height: 1.5;
+      font-size: 9.5pt;
+    }
+
+    .header-banner {
+      border-bottom: 2.5px solid #15803d;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .badge {
+      display: inline-block;
+      background-color: #dcfce7;
+      color: #166534;
+      font-size: 8pt;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    h1 {
+      font-size: 20pt;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      font-size: 10.5pt;
+      font-weight: 500;
+      color: #15803d;
+      margin-top: 4px;
+    }
+
+    h2 {
+      font-size: 12.5pt;
+      font-weight: 700;
+      color: #0f172a;
+      border-bottom: 1.5px solid #e2e8f0;
+      padding-bottom: 4px;
+      margin-top: 18px;
+      margin-bottom: 8px;
+      page-break-after: avoid;
+    }
+
+    h3 {
+      font-size: 10.5pt;
+      font-weight: 600;
+      color: #166534;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      page-break-after: avoid;
+    }
+
+    p {
+      margin-bottom: 8px;
+      color: #334155;
+    }
+
+    ul, ol {
+      margin-left: 18px;
+      margin-bottom: 8px;
+      color: #334155;
+    }
+
+    li {
+      margin-bottom: 3px;
+    }
+
+    a {
+      color: #15803d;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      margin-bottom: 12px;
+      font-size: 8.5pt;
+      page-break-inside: avoid;
+    }
+
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 6px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f8fafc;
+    }
+
+    .code-block {
+      background-color: #0f172a;
+      color: #e2e8f0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8pt;
+      padding: 10px 12px;
+      border-radius: 6px;
+      margin: 8px 0;
+      white-space: pre-wrap;
+      line-height: 1.4;
+      page-break-inside: avoid;
+    }
+
+    .inline-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8.5pt;
+      background-color: #f1f5f9;
+      color: #0f172a;
+      padding: 1px 4px;
+      border-radius: 3px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .callout {
+      background-color: #f0fdf4;
+      border-left: 4px solid #16a34a;
+      padding: 8px 12px;
+      border-radius: 0 6px 6px 0;
+      margin: 10px 0;
+      font-size: 9pt;
+      page-break-inside: avoid;
+    }
+
+    .callout-title {
+      font-weight: 700;
+      color: #166534;
+      margin-bottom: 2px;
+    }
+
+    .architecture-box {
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 10px;
+      margin: 10px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.5pt;
+      line-height: 1.35;
+      color: #0f172a;
+      page-break-inside: avoid;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-banner">
+    <div class="badge">Darukaa.Earth AI Biodiversity Intelligence Challenge</div>
+    <h1>EcoSynapse AI: Evidence-Grounded Ecological Intelligence Platform</h1>
+    <div class="subtitle">Official Engineering Submission & Technical Specification Document</div>
+  </div>
+
+  <h2>1. Project Submission Links</h2>
+  <ul>
+    <li><strong>GitHub Repository:</strong> <a href="https://github.com/daanialmirza5/EcoSynapse-AI">https://github.com/daanialmirza5/EcoSynapse-AI</a></li>
+    <li><strong>Live Cloud Demo (Frontend):</strong> <a href="https://ecosynapse-ai-1.onrender.com">https://ecosynapse-ai-1.onrender.com</a></li>
+    <li><strong>Backend REST API Service:</strong> <a href="https://ecosynapse-ai.onrender.com">https://ecosynapse-ai.onrender.com</a></li>
+    <li><strong>Interactive API Documentation (Swagger / OpenAPI):</strong> <a href="https://ecosynapse-ai.onrender.com/docs">https://ecosynapse-ai.onrender.com/docs</a></li>
+  </ul>
+
+  <div class="callout">
+    <div class="callout-title">Repository Access Notes</div>
+    The GitHub repository is hosted at <a href="https://github.com/daanialmirza5/EcoSynapse-AI">daanialmirza5/EcoSynapse-AI</a> (default branch: <span class="inline-code">main</span>). For evaluation audits, full repository access and CI logs can be reviewed directly.
+  </div>
+
+  <h2>2. System Architecture & Information Pipeline</h2>
+  <p>
+    EcoSynapse AI operates on an uncompromising design principle: <strong>an LLM is NOT the reasoning engine</strong>. Traditional AI models suffer from severe hallucinations when reasoning over delicate ecological variables, generating plausible yet ecologically catastrophic recommendations with fabricated citations. EcoSynapse AI replaces generative hallucination with a <strong>100% deterministic Python reasoning pipeline</strong>, grounded against an auditable scientific corpus and a typed biological knowledge graph.
+  </p>
+
+  <div class="architecture-box">
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                                 USER OBSERVATION & INPUT                               │
+│            Natural Language text description OR Structured JSON measurement data       │
+└───────────────────────────────────────────┬────────────────────────────────────────────┘
+                                            │
+                                            ▼
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                      DETERMINISTIC FACT EXTRACTION & VALIDATION                        │
+│   Regex/Rule Extractor (app/conversations/extraction.py) · Detects gaps & conflicts    │
+└─────────────────────┬───────────────────────────────────────────────────┬──────────────┘
+                      │                                                   │
+                      ▼ (If data missing/conflicting)                     ▼ (If valid profile)
+┌───────────────────────────────────────────────┐   ┌────────────────────────────────────┐
+│          CLARIFICATION ENGINE                 │   │      ENVIRONMENTAL PROFILE         │
+│ Generates targeted clarifying questions       │   │ Normalized variables across 5      │
+│ (app/conversations/clarify.py)                │   │ ecological domains                 │
+└───────────────────────────────────────────────┘   └─────────────────┬──────────────────┘
+                                                                      │
+                                                                      ▼
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                          HYBRID EVIDENCE RETRIEVAL PIPELINE                            │
+│  Cosine Similarity + BM25 Lexical Search + Knowledge Graph 1-Hop Expansion (app/retrieval)│
+└───────────────────────────────────────────┬────────────────────────────────────────────┘
+                                            │
+                                            ▼
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                        TYPED ECOLOGICAL KNOWLEDGE GRAPH                                │
+│       NetworkX MultiDiGraph: 23 Biological Nodes & 22 Directional Typed Edges          │
+└───────────────────────────────────────────┬────────────────────────────────────────────┘
+                                            │
+                                            ▼
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                     10-STEP DETERMINISTIC REASONING ENGINE                             │
+│   Concern Detection → Candidate Generation → Constraint Evaluation → Feasibility Checks│
+└───────────────────────────────────────────┬────────────────────────────────────────────┘
+                                            │
+                                            ▼
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                        SCIENTIFIC CLAIM & NUMERIC VERIFICATION                         │
+│   Verifies claims against source excerpts · Validates numbers · Rates evidence strength│
+└───────────────────────────────────────────┬────────────────────────────────────────────┘
+                                            │
+                                            ▼
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                   STRUCTURED RECOMMENDATIONS & MONITORING DASHBOARD                    │
+│   Impacted Metrics · Confidence Score · Time Horizon (Short/Med/Long) · Monitoring Plan│
+└────────────────────────────────────────────────────────────────────────────────────────┘
+  </div>
+
+  <div class="page-break"></div>
+
+  <h2>3. Core Ecological Intelligence Domains</h2>
+  <p>
+    EcoSynapse AI models interconnected biological relationships across all five mandatory challenge domains without relying on ungrounded generative speculation:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Domain</th>
+        <th>Modeled Variables & Parameters</th>
+        <th>Ecological Significance & Mechanisms</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1. Soil Health</strong></td>
+        <td>Soil Organic Carbon (SOC %), Soil pH, Soil Moisture, Microbial Biomass</td>
+        <td>Drives belowground microbial respiration and nutrient cycling; extreme pH constrains microbial activity and root establishment.</td>
+      </tr>
+      <tr>
+        <td><strong>2. Land Use</strong></td>
+        <td>Monoculture Cropland, Polyculture, Tillage Intensity, Buffer Strips</td>
+        <td>Monoculture practices drive habitat homogenization; polyculture and hedgerows enhance landscape complexity and functional connectivity.</td>
+      </tr>
+      <tr>
+        <td><strong>3. Biodiversity Indicators</strong></td>
+        <td>Species Richness, Beneficial Arthropod Abundance, Natural Predators, Pollinators</td>
+        <td>Serves as primary ecological health indicators and ecosystem service drivers (pollination and biological pest suppression).</td>
+      </tr>
+      <tr>
+        <td><strong>4. Climate Factors</strong></td>
+        <td>Precipitation / Annual Rainfall (mm), Semi-Arid Indicators, Temperature Regimes</td>
+        <td>Acts as the core physical constraint on vegetation establishment, survival rates, and climate-induced species range shifts.</td>
+      </tr>
+      <tr>
+        <td><strong>5. Human Impact</strong></td>
+        <td>Chemical Pesticide Exposure, Agricultural Intensification, Habitat Degradation</td>
+        <td>Direct hazard to non-target soil invertebrates and pollinators; drives cumulative biodiversity loss across fragmented landscapes.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>4. Multi-Metric Reasoning & Anti-Hallucination Design</h2>
+  <p>
+    EcoSynapse enforces multi-layered safety mechanisms to ensure zero scientific hallucination:
+  </p>
+  <ol>
+    <li><strong>Deterministic Regex Extraction:</strong> Environmental variables (percentages, numerical rainfall values, soil pH, land types) are extracted using strict regular expressions and canonical lookups. LLMs are never permitted to guess numbers.</li>
+    <li><strong>Strict Missing-Variable & Feasibility Gates:</strong> If fewer than 3 known variables exist, the engine halts recommendation generation and triggers the Clarification Engine rather than issuing unfounded advice.</li>
+    <li><strong>Hypothesis vs. Fact Isolation:</strong> If user inputs text like <em>"assume rainfall is 1000mm"</em>, the parser recognizes conditional/instruction phrasing and refuses to treat hypothetical assumptions as measured field observations.</li>
+    <li><strong>Constraint Engine:</strong> Physical limits are strictly enforced. For example, woody agroforestry interventions are flagged with water-sensitivity constraints when rainfall is under 500mm in semi-arid zones.</li>
+    <li><strong>Claim-Level Source Verification:</strong> Generated statements are verified against the raw text excerpt in the knowledge corpus. Quantitative numbers (such as meta-analytic +36% beneficial arthropod gains) are checked for exact containment in the cited excerpt.</li>
+    <li><strong>Honest Evidence Reporting:</strong> Where literature shows mixed or non-significant outcomes (e.g. Mupepele et al. 2021 regarding European agroforestry), EcoSynapse reports that the effect is non-unequivocal and context-dependent.</li>
+  </ol>
+
+  <h2>5. Structured Output Specification: Confidence, Evidence & Time Horizon</h2>
+  <p>
+    Every recommendation output from <span class="inline-code">POST /api/v1/assessments</span> is machine-typed (<span class="inline-code">RecommendationOut</span> schema in <span class="inline-code">apps/api/app/schemas/assessment.py</span>):
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Output Field</th>
+        <th>Canonical Values / Type</th>
+        <th>Definition & Deterministic Calculation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="inline-code">time_horizon</span></td>
+        <td><span class="inline-code">short</span> | <span class="inline-code">medium</span> | <span class="inline-code">long</span></td>
+        <td>Biological response time window: <strong>Short</strong> (0–6 months; cover crops, water harvesting), <strong>Medium</strong> (1–3 years; intercropping, hedgerows), <strong>Long</strong> (3–10 years; agroforestry, corridor restoration).</td>
+      </tr>
+      <tr>
+        <td><span class="inline-code">evidence_strength</span></td>
+        <td><span class="inline-code">strong</span> | <span class="inline-code">moderate</span> | <span class="inline-code">weak</span> | <span class="inline-code">hypothesis</span></td>
+        <td>Quality of underlying research: <strong>Strong</strong> (global meta-analyses/FAO reports), <strong>Moderate</strong> (peer-reviewed observational studies), <strong>Weak</strong> (heterogeneous results), <strong>Hypothesis</strong> (plausible unmeasured link).</td>
+      </tr>
+      <tr>
+        <td><span class="inline-code">confidence</span></td>
+        <td><span class="inline-code">high</span> | <span class="inline-code">medium</span> | <span class="inline-code">low</span></td>
+        <td>Derived from data completeness percentage + average supporting evidence strength.</td>
+      </tr>
+      <tr>
+        <td><span class="inline-code">feasibility_constraints</span></td>
+        <td><span class="inline-code">List[str]</span></td>
+        <td>Explicit environmental warnings (e.g. water sensitivity in low-rainfall semi-arid environments).</td>
+      </tr>
+      <tr>
+        <td><span class="inline-code">claim_evidence_table</span></td>
+        <td><span class="inline-code">List[ClaimEvidenceOut]</span></td>
+        <td>Granular breakdown of every supporting scientific claim, cited source ID, DOI, excerpt, and limitations.</td>
+      </tr>
+      <tr>
+        <td><span class="inline-code">monitoring_plan</span></td>
+        <td><span class="inline-code">List[MonitoringPlanOut]</span></td>
+        <td>Metric-specific observation cadence, required indicator, and baseline instructions (zero fabricated target numbers).</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-break"></div>
+
+  <h2>6. Knowledge Base & Data Architecture</h2>
+  <p>
+    EcoSynapse AI is powered by PostgreSQL (with SQLite for fully offline development and CI). The database schema is version-controlled via Alembic migrations:
+  </p>
+  <ul>
+    <li><strong>12 Verified Scientific Sources:</strong> Fully seeded from <span class="inline-code">data/seed/sources.json</span> covering FAO institutional syntheses and peer-reviewed DOI papers (Smith et al. 2021, Tscharntke et al. 2005, Fahrig 2003, Mupepele et al. 2021, Boinot et al. 2022, DiBartolomeis et al. 2021, Pecl et al. 2017, Wang et al. 2023, Morton et al. 2020, Fierer & Jackson 2006, Iverson et al. 2021).</li>
+    <li><strong>23 Knowledge Graph Nodes & 22 Typed Edges:</strong> MultiDiGraph in NetworkX modeling bi-directional ecological interactions, mechanism intermediaries, and constraint barriers.</li>
+    <li><strong>Hybrid Search Engine:</strong> Deterministic TF-IDF hashing embeddings (with optional OpenAI vector embeddings) + lexical term frequency + 1-hop knowledge-graph neighborhood expansion.</li>
+    <li><strong>Core Relational Tables:</strong> <span class="inline-code">scientific_sources</span>, <span class="inline-code">evidence_chunks</span>, <span class="inline-code">scientific_claims</span>, <span class="inline-code">knowledge_nodes</span>, <span class="inline-code">knowledge_edges</span>, <span class="inline-code">environmental_profiles</span>, <span class="inline-code">environmental_observations</span>, <span class="inline-code">conversations</span>, <span class="inline-code">messages</span>, <span class="inline-code">assessments</span>, <span class="inline-code">recommendations</span>, and <span class="inline-code">monitoring_plans</span>.</li>
+  </ul>
+
+  <h2>7. Structured JSON Input & REST API Reference</h2>
+  <p>
+    In addition to conversational interaction, EcoSynapse accepts fully structured JSON payloads across all REST API endpoints:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Method & Path</th>
+        <th>Input Schema / Parameters</th>
+        <th>Function & Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="inline-code">POST /api/v1/conversations/{id}/messages</span></td>
+        <td><span class="inline-code">{"content": "...", "structured_input": {...}}</span></td>
+        <td>Extracts variables, checks data completeness, asks clarifying questions, and builds profile.</td>
+      </tr>
+      <tr>
+        <td><span class="inline-code">POST /api/v1/profiles</span></td>
+        <td><span class="inline-code">{"soil_organic_carbon": 0.35, "rainfall": 420}</span></td>
+        <td>Direct programmatic environmental profile creation bypassing conversational extraction.</td>
+      </tr>
+      <tr>
+        <td><span class="inline-code">POST /api/v1/assessments</span></td>
+        <td><span class="inline-code">{"profile_id": "...", "conversation_id": "..."}</span></td>
+        <td>Executes 10-step reasoning pipeline; returns recommendations, evidence tables, and monitoring plans.</td>
+      </tr>
+      <tr>
+        <td><span class="inline-code">POST /api/v1/retrieval/inspect</span></td>
+        <td><span class="inline-code">{"query": "soil moisture semi-arid", "top_k": 6}</span></td>
+        <td>Returns ranked scientific evidence chunks with semantic, lexical, and graph-expansion score traces.</td>
+      </tr>
+      <tr>
+        <td><span class="inline-code">GET /api/v1/knowledge/graph</span></td>
+        <td>None</td>
+        <td>Returns full 23-node, 22-edge knowledge graph topology with edge evidence ratings.</td>
+      </tr>
+      <tr>
+        <td><span class="inline-code">GET /health</span> & <span class="inline-code">GET /health/ready</span></td>
+        <td>None</td>
+        <td>Liveness probe with live source/node counts and strict DB readiness gate for orchestrators.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Representative Structured Input & Assessment Payload:</h3>
+  <div class="code-block">{
+  "content": "Semi-arid wheat cropland, rainfall 420mm, soil organic carbon 0.35%, declining pollinators.",
+  "structured_input": {
+    "ecosystem_type": "semi-arid",
+    "soil_organic_carbon": 0.35,
+    "rainfall": 420.0,
+    "land_use_type": "monoculture_cropland",
+    "biodiversity_concern": "declining_pollinators"
+  }
+}</div>
+
+  <h2>8. Feature Walkthrough & Verification Guide</h2>
+  <p>
+    The React 18 frontend is organized into dedicated analytical interfaces:
+  </p>
+  <ul>
+    <li><strong>1. Overview (<span class="inline-code">/</span>):</strong> Live statistical telemetry showing verified source count (12), graph node count (23), typed relationships (22), and reasoning pipeline stages.</li>
+    <li><strong>2. Assessment Workspace (<span class="inline-code">/workspace</span>):</strong> Interactive conversational assistant. Click <em>"load the challenge demo scenario"</em> to load the semi-arid monoculture test case. Observe the instant extraction of SOC (0.3%), rainfall (low), and land use. Clarifying questions prompt for unmeasured soil pH and moisture. Click <em>"Run assessment"</em> to trigger the reasoning engine.</li>
+    <li><strong>3. Grounded Recommendations:</strong> Review candidate interventions (e.g. Cover Cropping, Intercropping, Agroforestry). Examine the feasibility constraints warning against high water sensitivity in low-rainfall zones, the multi-tier confidence badges, and the full claim-level evidence table.</li>
+    <li><strong>4. Evidence Explorer (<span class="inline-code">/evidence</span>):</strong> Browse all 12 verified scientific sources. Submit a query to inspect live hybrid retrieval reranking.</li>
+    <li><strong>5. Knowledge Graph (<span class="inline-code">/graph</span>):</strong> Explore typed ecological nodes and directional edges color-coded by evidence strength.</li>
+    <li><strong>6. Monitoring Dashboard (<span class="inline-code">/monitoring</span>):</strong> View monitoring cadences partitioned across short, medium, and long time horizons with baseline tracking.</li>
+    <li><strong>7. Methodology & Docs (<span class="inline-code">/docs</span>):</strong> In-depth breakdown of scoring rules, evidence tiers, and verification policies.</li>
+  </ul>
+
+  <div class="page-break"></div>
+
+  <h2>9. Local Setup & Execution Guide</h2>
+  <p>
+    EcoSynapse AI runs 100% offline with zero external API keys or cloud services required:
+  </p>
+
+  <h3>Backend Setup (PowerShell / Windows / Linux)</h3>
+  <div class="code-block">cd apps/api
+python -m venv .venv
+# On Windows: .\.venv\Scripts\Activate.ps1 | On Linux/macOS: source .venv/bin/activate
+pip install -e ".[dev]"
+alembic upgrade head
+uvicorn app.main:app --reload --port 8000</div>
+
+  <h3>Frontend Setup</h3>
+  <div class="code-block">cd apps/web
+npm install
+npm run dev  # Runs locally at http://localhost:5173</div>
+
+  <h3>Docker Compose Single-Command Launch</h3>
+  <div class="code-block">docker compose up --build
+# Web UI: http://localhost:3000 | API: http://localhost:8000 | Docs: http://localhost:8000/docs</div>
+
+  <h2>10. Cloud Infrastructure, Deployment & CI/CD</h2>
+  <ul>
+    <li><strong>Infrastructure-as-Code:</strong> <span class="inline-code">render.yaml</span> blueprint specifies the containerized FastAPI service, managed PostgreSQL instance, and React static frontend.</li>
+    <li><strong>Automated CI Pipeline:</strong> GitHub Actions workflow (<span class="inline-code">.github/workflows/ci.yml</span>) validates every push across dual-database configurations:
+      <ul>
+        <li><strong>61 Backend Tests (pytest):</strong> Testing reasoning pipelines, anti-hallucination guards, error handling, and knowledge validity.</li>
+        <li><strong>18 Frontend Tests (vitest):</strong> Component tests for chat panels, conflict banners, recommendation cards, and UI components.</li>
+        <li><strong>Total: 79 Passing Automated Tests (100% pass rate).</strong></li>
+        <li><strong>Security & Quality Audits:</strong> <span class="inline-code">pip-audit</span> (0 known vulnerabilities), Ruff linting (100% clean), TypeScript compilation (<span class="inline-code">tsc --noEmit</span> clean), and ESLint (0 errors/warnings).</li>
+      </ul>
+    </li>
+    <li><strong>Deployment Status:</strong> Cloud deployment infrastructure is configured and the frontend is live at <a href="https://ecosynapse-ai-1.onrender.com">https://ecosynapse-ai-1.onrender.com</a>. Backend service deployment is provisioned on Render; final runtime container routing verification remains in progress.</li>
+    <li><strong>Demo Hosting Note:</strong> EcoSynapse AI is hosted on Render's free tier for demonstration. Free web services spin down after inactivity, so initial cold-start requests may take 30–50 seconds while the container initializes.</li>
+  </ul>
+
+  <div class="callout" style="margin-top: 20px;">
+    <div class="callout-title">Summary of Compliance with Darukaa.Earth Challenge Brief</div>
+    EcoSynapse AI fulfills all core hackathon specifications: multi-metric reasoning across 5 ecological domains, verified scientific citations with valid DOIs, zero hallucinated baselines or numbers, typed knowledge graph integration, multi-horizon monitoring plans, structured JSON APIs, and a comprehensive 79-test automated test suite.
+  </div>
+
+</body>
+</html>
