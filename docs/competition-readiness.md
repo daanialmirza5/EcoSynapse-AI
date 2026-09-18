@@ -1,0 +1,138 @@
+# Competition readiness
+
+A factual assessment against the challenge brief's own evaluation
+dimensions (Depth of reasoning 30%, Scientific grounding 25%, Knowledge
+system design 20%, Conversational intelligence 15%, Output clarity 10%).
+**No numeric score is assigned here** -- only a judge applying the actual
+rubric can produce one; what follows is evidence for and against each
+dimension, plus honest gaps.
+
+## Technical completeness
+
+- Backend: FastAPI + SQLAlchemy + Alembic, 45 passing tests (SQLite and
+  Postgres), all mandatory API endpoints implemented and documented
+  (`docs/api-reference.md`).
+- Frontend: 11 routes, all functional against the live backend (not static
+  mockups), 13 passing tests.
+- Docker Compose verified end-to-end against real Postgres (see
+  `docs/evaluation-report.md`); two real bugs found and fixed during that
+  verification (see `docs/engineering-audit.md`).
+- Live deployment: not completed as of this writing -- see
+  `docs/deployment.md` for exact status and required next step (owner
+  completes `railway login`/`vercel login`).
+
+## Scientific grounding (25% of rubric)
+
+- 12 sources, each independently verified via live search during
+  development (not recalled from model memory), with real DOIs/URLs --
+  methodology and verification notes in `docs/scientific-grounding.md`.
+- Automated structural validation of the corpus
+  (`scripts/validate_knowledge.py`): 0 errors.
+- Every claim classified into one of 5 types
+  (`source_supported`/`model_derived`/`hypothesis`/`user_observation`/`unknown`);
+  automated verification cross-checks numeric figures against retrieved
+  excerpts and downgrades unverifiable ones.
+- Demonstrated honesty under pressure: the agroforestry recommendation
+  reports its cited meta-analysis's actual finding of "no unequivocal
+  effect," rather than smoothing it into generic positive advice (see
+  `docs/judge-story.md`).
+- Gap: 12 sources is a demo-scale corpus, not a systematic literature
+  review; several ecologically plausible edges are honestly marked
+  `hypothesis` because no source in the corpus covers them.
+
+## Knowledge system design (20% of rubric)
+
+- Hybrid retrieval (semantic + lexical + knowledge-graph term expansion),
+  fully inspectable via `POST /retrieval/inspect` and the Evidence Explorer
+  UI -- not asserted, demonstrably runnable.
+- Typed knowledge graph (23 nodes, 22 edges) with evidence-strength labels
+  on every edge; multi-hop traversal used by the reasoning engine.
+- Gap (documented, not hidden): default embedding is a deterministic
+  hashing scheme, not a trained neural embedding; pgvector is present in
+  the Docker Postgres image but not wired into any query (see
+  `docs/database-schema.md` for the reasoning and upgrade path).
+
+## Depth of reasoning (30% of rubric)
+
+- 10-step deterministic pipeline (concern detection -> candidate
+  interventions -> constraint checks -> claim verification -> monitoring
+  plan), documented step-by-step with exact function references in
+  `docs/reasoning-methodology.md`.
+- Hard gate on <3 known variables -- the system refuses to force a shallow
+  answer and states the limitation explicitly instead (verified by a
+  dedicated test).
+- Multi-variable reasoning demonstrated for all three mandated pairings
+  (soil health <-> biodiversity, water <-> species survival, land use <->
+  fragmentation) plus additional pairings (pollution, deforestation,
+  climate).
+- Constraint/trade-off engine flags water-sensitivity conflicts,
+  user-stated limits, and ecosystem-context mismatches per recommendation.
+- Confidence, evidence strength, and data completeness are reported as
+  three distinct values (not conflated into one opaque number), each with
+  a documented calculation.
+
+## Conversational intelligence (15% of rubric)
+
+- Rule-based (regex/keyword) extraction, by deliberate design choice
+  (transparency and testability over LLM-based NLU) -- documented as a
+  trade-off, not hidden.
+- Up to 3 prioritized clarifying questions per turn, not an exhaustive form.
+- Multi-turn memory via persisted `Conversation`/`EnvironmentalProfile`;
+  conflicting values are detected and surfaced, not silently overwritten.
+- Both natural-language and structured-JSON input accepted in the same
+  message.
+- Gap: extraction will miss phrasings outside its regex patterns rather
+  than attempting a best-effort guess -- a deliberate scientific-integrity
+  trade-off, but a real coverage limitation for free-form phrasing.
+
+## Output clarity (10% of rubric)
+
+- Every recommendation includes: what to do, why it may work, impacted
+  metrics, time horizon, confidence (+ reason), evidence strength, data
+  completeness, feasibility constraints, trade-offs, claim-level evidence
+  table, and monitoring plan -- the full challenge section 14 contract.
+- UI renders all of the above with progressive disclosure (summary visible,
+  evidence/monitoring behind an explicit expand action) rather than a wall
+  of text.
+- Ranking heuristic is labeled a prototype everywhere it's shown, with its
+  exact weights and component scores visible, not hidden inside a single
+  opaque score.
+
+## UX
+
+- 11 functional pages, verified rendering correctly in a real headless
+  browser during development (not just "should work" -- screenshots taken).
+- Loading/empty/error states implemented and tested for the core chat and
+  recommendation-display components.
+- Known gap: no independent accessibility audit (screen reader, full
+  keyboard-navigation walkthrough) was performed; semantic landmarks and
+  labeled inputs are in place but not exhaustively verified.
+
+## Testing
+
+- 45 backend tests (pytest), 13 frontend tests (vitest), all passing as of
+  this writing against both SQLite and real Postgres.
+- A 6-case evaluation benchmark exercising schema validity, citation
+  coverage, unsupported-claim rate, and ecosystem-mismatch detection --
+  explicitly labeled a prototype evaluation, not an expert-labeled
+  benchmark (see `docs/evaluation.md`).
+- CI runs backend tests against both SQLite and a real Postgres service
+  container, frontend lint/typecheck/test/build, and a knowledge-corpus
+  validation step.
+
+## Demo readiness
+
+- `docs/demo-script.md` provides 60-second, 3-minute, and 5-minute scripted
+  walkthroughs, all exercisable against the actual running system (no
+  scripted fake data).
+- The "load the challenge demo scenario" shortcut in the Workspace chat
+  reproduces the canonical demo path in one click.
+
+## Summary of what would most improve the next iteration
+
+In priority order: (1) complete the live deployment once credentials are
+available, (2) expand the source corpus with a second research pass focused
+on the currently-`hypothesis`-only edges, (3) an independent accessibility
+audit, (4) a load/performance test once real usage patterns exist to test
+against, (5) resolve the react-router moderate advisory via a tested v7
+migration (deferred this pass -- see `docs/evaluation-report.md`).

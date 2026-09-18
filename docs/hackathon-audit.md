@@ -105,18 +105,25 @@ paths (`reasoning/engine.py::INSUFFICIENT_VARIABLES_MESSAGE` and seed edge
 
 ## 11. Testing coverage
 
-- Backend: 26 pytest tests — unit (extraction, evidence verification),
+- Backend: 45 pytest tests — unit (extraction, evidence verification),
   integration (every API endpoint via `TestClient`), schema validation,
   retrieval, knowledge graph, missing-data gate, constraint engine (exercised
-  through `test_assessments.py`), monitoring-plan honesty, and a 4-case
-  evaluation benchmark.
-- Frontend: 12 vitest tests — component rendering, loading/empty/error
-  states, evidence display, and the "never fabricate a numeric target"
+  through `test_assessments.py`), monitoring-plan honesty, error handling
+  (404s, validation errors, oversized requests, rate limiting), a
+  Postgres-column-width regression test, and a 6-case evaluation benchmark.
+  Verified passing against both SQLite and real PostgreSQL (see
+  `docs/evaluation-report.md`).
+- Frontend: 13 vitest tests — component rendering, loading/empty/error
+  states, evidence display, the distinct confidence/evidence-strength/
+  data-completeness badges, and the "never fabricate a numeric target"
   invariant.
 - End-to-end manual verification: full workspace flow (ambiguous message →
   clarifying questions → structured facts → assessment → expand evidence →
   monitoring plan) driven in a real headless browser during development and
-  visually confirmed (see `docs/demo-script.md`).
+  visually confirmed (see `docs/demo-script.md`); the same flow was also run
+  against the fully containerized Docker Compose stack with real PostgreSQL,
+  which surfaced and led to fixing two real bugs invisible under SQLite (see
+  `docs/engineering-audit.md`).
 
 ## 12. Known gaps (stated once here, referenced from README)
 

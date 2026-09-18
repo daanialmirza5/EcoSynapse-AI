@@ -154,6 +154,7 @@ Interactive OpenAPI docs at `http://localhost:8000/docs` once the backend is run
 
 ```
 GET  /health
+GET  /health/ready
 POST /api/v1/conversations
 GET  /api/v1/conversations
 GET  /api/v1/conversations/{id}
@@ -238,6 +239,9 @@ run the demo; every variable has a safe, offline default.
 | `EMBEDDING_PROVIDER` | `hashing` | `hashing` = deterministic offline embeddings; `openai` for higher quality |
 | `CORS_ORIGINS` | `http://localhost:5173,...` | Comma-separated allowed origins |
 | `APP_SECRET` | dev placeholder | Set a real secret in production |
+| `RATE_LIMIT_PER_MINUTE` | `120` | Basic in-memory per-IP rate limit; `0` disables it (see `app/main.py::InMemoryRateLimiter`) |
+| `SEED_DATA_DIR` | unset (auto-detected) | Override where `data/seed/*.json` lives; set automatically in the Docker image |
+| `VITE_API_BASE_URL` (frontend) | unset (same-origin) | Set for a split deployment (e.g. Vercel frontend + Railway backend) — see [apps/web/.env.example](apps/web/.env.example) |
 
 ## 13. Database setup
 
@@ -269,19 +273,24 @@ Covered above in [Local setup](#11-local-setup). Frontend dev server proxies
 ## 16. Running tests
 
 ```powershell
-# Backend: 22 tests covering extraction, clarifying questions, the full
+# Backend: 45 tests covering extraction, clarifying questions, the full
 # reasoning pipeline (including the challenge demo scenario), evidence
-# verification, retrieval, and the knowledge graph.
+# verification, retrieval, the knowledge graph, error handling, and a
+# regression test for a real Postgres-only bug (see docs/engineering-audit.md).
 cd apps\api
 .\.venv\Scripts\python.exe -m pytest -q
 
-# Frontend: 12 component tests covering loading/empty/error states,
+# Frontend: 13 component tests covering loading/empty/error states,
 # evidence rendering, and the "never fabricate a numeric target" invariant.
 cd apps\web
 npm test
 ```
 
-Both suites currently pass in full (see [docs/evaluation.md](docs/evaluation.md) for a fuller breakdown and its own caveats).
+Both suites currently pass in full against SQLite; the backend suite has
+also been verified against real PostgreSQL (see
+[docs/evaluation-report.md](docs/evaluation-report.md) for exact commands
+and results, and [docs/evaluation.md](docs/evaluation.md) for the benchmark
+methodology and its caveats).
 
 ## 17. Docker instructions
 
@@ -297,9 +306,15 @@ proxies `/api` and `/health` to the API container). Frontend at
 ## 18. CI/CD
 
 `.github/workflows/ci.yml` runs on every push/PR: backend lint (`ruff`) +
-migration check + `pytest`; frontend lint + `tsc --noEmit` + `vitest` +
-production build. See [docs/deployment.md](docs/deployment.md) for the
-current deployment status (not yet deployed — see limitations).
+knowledge-corpus validation + migration check + `pytest` against SQLite,
+**plus a second job running the full backend suite against a real
+PostgreSQL service container** (added after a Postgres-only bug was found
+during manual Docker verification — SQLite doesn't enforce `VARCHAR`
+lengths, Postgres does; see
+[docs/engineering-audit.md](docs/engineering-audit.md)); frontend lint +
+`tsc --noEmit` + `vitest` + production build. See
+[docs/deployment.md](docs/deployment.md) for the current deployment status
+and the exact Railway/Vercel deployment steps.
 
 ## 19. Demo credentials
 
@@ -331,6 +346,14 @@ automatically.
   regex/keyword-based by design (for scientific-integrity/testability
   reasons stated above), so it will miss phrasings outside its patterns
   rather than guessing.
+- **One moderate frontend dependency advisory deferred.** `npm audit` flags
+  an open-redirect issue in `react-router`/`react-router-dom`; the fix
+  requires a major-version upgrade (6.x → 7.x) that would need regression
+  testing across all 10 frontend routes. Deferred rather than force-upgraded
+  under time pressure — see [docs/evaluation-report.md](docs/evaluation-report.md).
+- **Basic rate limiting only.** In-memory, single-process, resets on
+  restart — adequate for a single-instance demo deployment, not for a
+  horizontally-scaled production deployment without a shared store (Redis).
 
 ## 21. Project structure
 
@@ -347,6 +370,7 @@ daruka/
                 reasoning methodology, evaluation, deployment, demo script,
                 submission checklist, hackathon audit
   tests/        Cross-cutting fixtures/evaluation cases (see tests/README.md)
+  scripts/      Standalone tooling (validate_knowledge.py)
   .github/workflows/ci.yml
   docker-compose.yml, apps/api/Dockerfile, apps/web/Dockerfile
 ```
@@ -358,8 +382,14 @@ daruka/
 - [docs/api-reference.md](docs/api-reference.md)
 - [docs/scientific-grounding.md](docs/scientific-grounding.md)
 - [docs/reasoning-methodology.md](docs/reasoning-methodology.md)
-- [docs/evaluation.md](docs/evaluation.md)
+- [docs/evaluation.md](docs/evaluation.md) — evaluation methodology
+- [docs/evaluation-report.md](docs/evaluation-report.md) — actual measured results
+- [docs/engineering-audit.md](docs/engineering-audit.md) — findings from a full audit + Docker/Postgres verification pass
 - [docs/deployment.md](docs/deployment.md)
-- [docs/demo-script.md](docs/demo-script.md)
+- [docs/demo-script.md](docs/demo-script.md) — 60s / 3min / 5min scripts
 - [docs/submission-checklist.md](docs/submission-checklist.md)
 - [docs/hackathon-audit.md](docs/hackathon-audit.md)
+- [docs/judge-story.md](docs/judge-story.md) — the narrative case for judges
+- [docs/team-handoff.md](docs/team-handoff.md) — onboarding for a new teammate
+- [docs/competition-readiness.md](docs/competition-readiness.md)
+- [CONTRIBUTING.md](CONTRIBUTING.md)

@@ -27,8 +27,8 @@ def test_health_reports_degraded_when_knowledge_base_is_empty(monkeypatch, tmp_p
     from sqlalchemy import create_engine
     from sqlalchemy.orm import sessionmaker
 
-    from app.db.base import Base
     import app.main as main_module
+    from app.db.base import Base
 
     empty_engine = create_engine(f"sqlite:///{tmp_path}/empty.db", connect_args={"check_same_thread": False})
     Base.metadata.create_all(bind=empty_engine)

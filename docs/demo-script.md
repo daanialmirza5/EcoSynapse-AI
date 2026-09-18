@@ -1,7 +1,49 @@
-# Five-minute demo script
+# Demo scripts (60s / 3min / 5min)
 
 Prerequisites: backend running on `:8000`, frontend on `:5173` (see README
 §11). Open the frontend at `http://localhost:5173`.
+
+## 60-second version
+
+Use when you only get one breath. Skip the workspace UI entirely -- narrate
+over a single pre-loaded assessment screen (run the demo scenario before you
+start talking so it's already on screen).
+
+> "EcoSynapse AI is an ecological decision-support system, not a chatbot
+> with green branding. Every recommendation you see here" -- point at a
+> recommendation card -- "is backed by a real, verified scientific source
+> with a DOI, not an LLM guess. Watch: this one" -- point at the
+> Agroforestry card -- "has low confidence, because the actual 2021
+> meta-analysis it cites found *no unequivocal biodiversity effect* --
+> the system reports that honestly instead of a generic 'plant more trees.'
+> And this monitoring plan never invents a number: it says 'establish a
+> baseline first,' because no source in the corpus supports a specific
+> target. The reasoning, retrieval, and verification are all deterministic
+> Python, not a prompt -- the LLM, when used at all, only rephrases text for
+> tone, never originates a fact."
+
+## 3-minute version
+
+1. **(20s) The problem.** Landholder describes declining biodiversity;
+   generic chatbots either ask nothing or give generic, evidence-free advice.
+2. **(30s) Structured input -> assessment.** Load the demo scenario in the
+   Workspace, click Run assessment. Point out: 4 known variables, concern
+   detection (low SOC, water scarcity, monoculture, declining biodiversity),
+   5 candidate interventions.
+3. **(45s) Evidence, not vibes.** Expand one recommendation's evidence
+   table. Show the citation, the excerpt, and the evidence-status badge.
+   Contrast a `supported` claim (intercropping, moderate evidence) against
+   the `partially_supported` agroforestry claim -- explain the automatic
+   downgrade logic (ecosystem mismatch / unverifiable numbers).
+4. **(30s) Never a fabricated number.** Show the monitoring plan's "establish
+   a baseline first" wording.
+5. **(30s) Change and reassess.** Edit soil pH in Profile Editor, reassess,
+   show the version bump and diff.
+6. **(25s) Technical differentiation.** Close on Methodology: deterministic
+   reasoning engine, knowledge graph, hybrid retrieval, claim verification --
+   the LLM is optional and phrasing-only.
+
+## Five-minute version
 
 ## 1. The problem (30s)
 Open **Overview**. Explain: a landholder describes declining biodiversity;

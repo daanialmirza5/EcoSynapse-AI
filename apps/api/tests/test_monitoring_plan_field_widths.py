@@ -12,8 +12,8 @@ against.
 from __future__ import annotations
 
 from app.models.monitoring import MonitoringPlan
-from app.models.recommendation import Assessment, Recommendation
 from app.models.profile import EnvironmentalProfile
+from app.models.recommendation import Assessment, Recommendation
 
 
 def test_monitoring_plan_accepts_long_unit_and_frequency_text(db_session):

@@ -1,16 +1,18 @@
 # Evaluation
 
 **This is a prototype evaluation.** There are no expert-labeled ground-truth
-answers here — 3 hand-curated scenarios with automatically checkable
+answers here — 6 hand-curated scenarios with automatically checkable
 structural properties. Treat every number below as "this ran and passed on
 this machine on this date," not as a validated accuracy metric.
 
 ## What is actually run
 
 `apps/api/tests/test_evaluation_benchmark.py` loads
-`tests/evaluation_cases/*.json` (3 cases: the challenge's illustrative
-semi-arid wheat scenario, a deliberately under-specified profile, and a
-tropical deforestation-pressure scenario) and checks, per case:
+`tests/evaluation_cases/*.json` (6 cases: the challenge's illustrative
+semi-arid wheat scenario, a deliberately under-specified profile, a tropical
+deforestation-pressure scenario, a genuinely strong-evidence intercropping
+scenario, an ecosystem-context-mismatch scenario, and a scenario with a
+pre-recorded monitoring baseline) and checks, per case:
 
 | Challenge evaluation criterion | Automated check performed |
 |---|---|
@@ -22,7 +24,7 @@ tropical deforestation-pressure scenario) and checks, per case:
 | Recommendation consistency | The expected intervention family (e.g. agroforestry/hedgerow/pest-management for a deforestation+pesticide scenario) appears among the candidates |
 
 Run it: `cd apps/api && pytest tests/test_evaluation_benchmark.py -v`. As of
-the last local run, **4/4 parametrized cases pass** (3 scenario cases + 1
+the last local run, **7/7 parametrized cases pass** (6 scenario cases + 1
 benchmark-coverage guard).
 
 ## Criteria not automatable at this scale
@@ -49,10 +51,13 @@ test, and is disclosed as such.
 
 ## Honest summary
 
-- Backend: 26 pytest tests pass (extraction, clarifying questions, the full
-  reasoning pipeline, evidence verification, retrieval, knowledge graph, and
-  the 4-case evaluation benchmark above).
-- Frontend: 12 vitest tests pass (component rendering, loading/empty/error
+- Backend: 45 pytest tests pass, against both SQLite and real PostgreSQL
+  (extraction, clarifying questions, the full reasoning pipeline, evidence
+  verification, retrieval, knowledge graph, error handling, and the 6-case
+  evaluation benchmark above). See `docs/evaluation-report.md` for the exact
+  measured results, including a Postgres-only bug this cross-backend testing
+  caught.
+- Frontend: 13 vitest tests pass (component rendering, loading/empty/error
   states, and the "never fabricate a numeric monitoring target" invariant).
 - No claim is made about retrieval precision/recall, recommendation quality
   versus a human expert, or user-satisfaction — none of these were measured.
