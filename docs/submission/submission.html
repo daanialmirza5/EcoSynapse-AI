@@ -8,18 +8,18 @@
 
     @page {
       size: A4;
-      margin: 18mm 16mm 18mm 16mm;
+      margin: 16mm 15mm 16mm 15mm;
       @bottom-right {
         content: "Page " counter(page) " of " counter(pages);
         font-family: 'Inter', sans-serif;
         font-size: 8pt;
-        color: #71717a;
+        color: #64748b;
       }
       @bottom-left {
         content: "EcoSynapse AI — Official Submission Document";
         font-family: 'Inter', sans-serif;
         font-size: 8pt;
-        color: #71717a;
+        color: #64748b;
       }
     }
 
@@ -31,33 +31,33 @@
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      color: #1c1917;
+      color: #0f172a;
       background-color: #ffffff;
-      line-height: 1.5;
-      font-size: 9.5pt;
+      line-height: 1.48;
+      font-size: 9.2pt;
     }
 
     .header-banner {
-      border-bottom: 2.5px solid #15803d;
-      padding-bottom: 12px;
-      margin-bottom: 16px;
+      border-bottom: 2.5px solid #2563eb;
+      padding-bottom: 10px;
+      margin-bottom: 14px;
     }
 
     .badge {
       display: inline-block;
-      background-color: #dcfce7;
-      color: #166534;
-      font-size: 8pt;
-      font-weight: 600;
-      padding: 3px 8px;
+      background-color: #dbeafe;
+      color: #1e40af;
+      font-size: 7.5pt;
+      font-weight: 700;
+      padding: 3px 9px;
       border-radius: 4px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 6px;
+      letter-spacing: 0.6px;
+      margin-bottom: 5px;
     }
 
     h1 {
-      font-size: 20pt;
+      font-size: 19pt;
       font-weight: 800;
       color: #0f172a;
       letter-spacing: -0.5px;
@@ -65,73 +65,73 @@
     }
 
     .subtitle {
-      font-size: 10.5pt;
-      font-weight: 500;
-      color: #15803d;
-      margin-top: 4px;
+      font-size: 10pt;
+      font-weight: 600;
+      color: #2563eb;
+      margin-top: 3px;
     }
 
     h2 {
-      font-size: 12.5pt;
+      font-size: 11.5pt;
       font-weight: 700;
       color: #0f172a;
       border-bottom: 1.5px solid #e2e8f0;
-      padding-bottom: 4px;
-      margin-top: 18px;
-      margin-bottom: 8px;
+      padding-bottom: 3px;
+      margin-top: 14px;
+      margin-bottom: 6px;
       page-break-after: avoid;
     }
 
     h3 {
-      font-size: 10.5pt;
+      font-size: 9.8pt;
       font-weight: 600;
-      color: #166534;
-      margin-top: 10px;
-      margin-bottom: 4px;
+      color: #1d4ed8;
+      margin-top: 8px;
+      margin-bottom: 3px;
       page-break-after: avoid;
     }
 
     p {
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       color: #334155;
     }
 
     ul, ol {
-      margin-left: 18px;
-      margin-bottom: 8px;
+      margin-left: 16px;
+      margin-bottom: 6px;
       color: #334155;
     }
 
     li {
-      margin-bottom: 3px;
+      margin-bottom: 2.5px;
     }
 
     a {
-      color: #15803d;
+      color: #2563eb;
       text-decoration: none;
-      font-weight: 500;
+      font-weight: 600;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 8px;
-      margin-bottom: 12px;
-      font-size: 8.5pt;
+      margin-top: 6px;
+      margin-bottom: 10px;
+      font-size: 8.2pt;
       page-break-inside: avoid;
     }
 
     th, td {
       border: 1px solid #cbd5e1;
-      padding: 6px 8px;
+      padding: 5px 7px;
       text-align: left;
       vertical-align: top;
     }
 
     th {
-      background-color: #f1f5f9;
-      color: #0f172a;
-      font-weight: 600;
+      background-color: #f0f7ff;
+      color: #1e3a8a;
+      font-weight: 700;
     }
 
     tr:nth-child(even) td {
@@ -142,18 +142,18 @@
       background-color: #0f172a;
       color: #e2e8f0;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 8pt;
-      padding: 10px 12px;
+      font-size: 7.8pt;
+      padding: 8px 10px;
       border-radius: 6px;
-      margin: 8px 0;
+      margin: 6px 0;
       white-space: pre-wrap;
-      line-height: 1.4;
+      line-height: 1.35;
       page-break-inside: avoid;
     }
 
     .inline-code {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 8.5pt;
+      font-size: 8pt;
       background-color: #f1f5f9;
       color: #0f172a;
       padding: 1px 4px;
@@ -162,32 +162,28 @@
     }
 
     .callout {
-      background-color: #f0fdf4;
-      border-left: 4px solid #16a34a;
-      padding: 8px 12px;
+      background-color: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 7px 11px;
       border-radius: 0 6px 6px 0;
-      margin: 10px 0;
-      font-size: 9pt;
+      margin: 8px 0;
+      font-size: 8.8pt;
       page-break-inside: avoid;
     }
 
     .callout-title {
       font-weight: 700;
-      color: #166534;
+      color: #1e40af;
       margin-bottom: 2px;
     }
 
-    .architecture-box {
-      background: #f8fafc;
-      border: 1.5px solid #cbd5e1;
-      border-radius: 6px;
-      padding: 10px;
-      margin: 10px 0;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 7.5pt;
-      line-height: 1.35;
-      color: #0f172a;
-      page-break-inside: avoid;
+    .arch-img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      margin: 8px 0 10px 0;
+      display: block;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
     }
 
     .page-break {
@@ -213,63 +209,26 @@
 
   <div class="callout">
     <div class="callout-title">Repository Access Notes</div>
-    The GitHub repository is hosted at <a href="https://github.com/daanialmirza5/EcoSynapse-AI">daanialmirza5/EcoSynapse-AI</a> (default branch: <span class="inline-code">main</span>). For evaluation audits, full repository access and CI logs can be reviewed directly.
+    The GitHub repository is hosted at <a href="https://github.com/daanialmirza5/EcoSynapse-AI">daanialmirza5/EcoSynapse-AI</a> (branch: <span class="inline-code">main</span>). Evaluators can review the complete Git commit history, automated CI logs, verified test suites, and documentation.
   </div>
 
   <h2>2. System Architecture & Information Pipeline</h2>
   <p>
-    EcoSynapse AI operates on an uncompromising design principle: <strong>an LLM is NOT the reasoning engine</strong>. Traditional AI models suffer from severe hallucinations when reasoning over delicate ecological variables, generating plausible yet ecologically catastrophic recommendations with fabricated citations. EcoSynapse AI replaces generative hallucination with a <strong>100% deterministic Python reasoning pipeline</strong>, grounded against an auditable scientific corpus and a typed biological knowledge graph.
+    EcoSynapse AI operates on an uncompromising design principle: <strong>an LLM is NOT the reasoning engine</strong>. Traditional generative AI chatbots suffer from severe hallucinations when handling delicate ecological metrics, prescribing unconstrained interventions with fabricated citations. EcoSynapse AI replaces ungrounded generative speculation with a <strong>100% deterministic Python reasoning pipeline</strong>, grounded against an auditable scientific corpus and a typed biological knowledge graph.
   </p>
 
-  <div class="architecture-box">
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                                 USER OBSERVATION & INPUT                               │
-│            Natural Language text description OR Structured JSON measurement data       │
-└───────────────────────────────────────────┬────────────────────────────────────────────┘
-                                            │
-                                            ▼
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                      DETERMINISTIC FACT EXTRACTION & VALIDATION                        │
-│   Regex/Rule Extractor (app/conversations/extraction.py) · Detects gaps & conflicts    │
-└─────────────────────┬───────────────────────────────────────────────────┬──────────────┘
-                      │                                                   │
-                      ▼ (If data missing/conflicting)                     ▼ (If valid profile)
-┌───────────────────────────────────────────────┐   ┌────────────────────────────────────┐
-│          CLARIFICATION ENGINE                 │   │      ENVIRONMENTAL PROFILE         │
-│ Generates targeted clarifying questions       │   │ Normalized variables across 5      │
-│ (app/conversations/clarify.py)                │   │ ecological domains                 │
-└───────────────────────────────────────────────┘   └─────────────────┬──────────────────┘
-                                                                      │
-                                                                      ▼
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                          HYBRID EVIDENCE RETRIEVAL PIPELINE                            │
-│  Cosine Similarity + BM25 Lexical Search + Knowledge Graph 1-Hop Expansion (app/retrieval)│
-└───────────────────────────────────────────┬────────────────────────────────────────────┘
-                                            │
-                                            ▼
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                        TYPED ECOLOGICAL KNOWLEDGE GRAPH                                │
-│       NetworkX MultiDiGraph: 23 Biological Nodes & 22 Directional Typed Edges          │
-└───────────────────────────────────────────┬────────────────────────────────────────────┘
-                                            │
-                                            ▼
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                     10-STEP DETERMINISTIC REASONING ENGINE                             │
-│   Concern Detection → Candidate Generation → Constraint Evaluation → Feasibility Checks│
-└───────────────────────────────────────────┬────────────────────────────────────────────┘
-                                            │
-                                            ▼
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                        SCIENTIFIC CLAIM & NUMERIC VERIFICATION                         │
-│   Verifies claims against source excerpts · Validates numbers · Rates evidence strength│
-└───────────────────────────────────────────┬────────────────────────────────────────────┘
-                                            │
-                                            ▼
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                   STRUCTURED RECOMMENDATIONS & MONITORING DASHBOARD                    │
-│   Impacted Metrics · Confidence Score · Time Horizon (Short/Med/Long) · Monitoring Plan│
-└────────────────────────────────────────────────────────────────────────────────────────┘
-  </div>
+  <img src="architecture.jpg" alt="EcoSynapse AI Architecture Diagram" class="arch-img" />
+
+  <p>
+    The information pipeline processes ecological observations through five connected layers:
+  </p>
+  <ol>
+    <li><strong>User Input & Extraction:</strong> Natural language text or structured JSON is parsed by a deterministic regex extractor (<span class="inline-code">app/conversations/extraction.py</span>). Gaps trigger targeted clarification questions (<span class="inline-code">app/conversations/clarify.py</span>).</li>
+    <li><strong>Hybrid Scientific Retrieval & Knowledge Graph:</strong> Cosine similarity over embeddings is combined with BM25 lexical keyword search and 1-hop neighborhood expansion across a 23-node, 22-edge typed <span class="inline-code">NetworkX</span> MultiDiGraph.</li>
+    <li><strong>10-Step Deterministic Reasoning & Constraint Engine:</strong> Identifies active concerns, maps causal pathways, and applies strict physical feasibility rules (e.g., rainfall &lt; 500mm limits woody vegetation).</li>
+    <li><strong>Scientific Claim Verification:</strong> Validates every quantitative assertion against raw source excerpts, checking exact numeric match before rating evidence strength.</li>
+    <li><strong>Structured Output & Monitoring:</strong> Synthesizes actionable recommendations tagged with time horizons, confidence scores, and metric-specific monitoring cadences (no fabricated baselines).</li>
+  </ol>
 
   <div class="page-break"></div>
 
@@ -500,7 +459,7 @@ npm run dev  # Runs locally at http://localhost:5173</div>
     <li><strong>Demo Hosting Note:</strong> EcoSynapse AI is hosted on Render's free tier for demonstration. Free web services spin down after inactivity, so initial cold-start requests may take 30–50 seconds while the container initializes.</li>
   </ul>
 
-  <div class="callout" style="margin-top: 20px;">
+  <div class="callout" style="margin-top: 16px;">
     <div class="callout-title">Summary of Compliance with Darukaa.Earth Challenge Brief</div>
     EcoSynapse AI fulfills all core hackathon specifications: multi-metric reasoning across 5 ecological domains, verified scientific citations with valid DOIs, zero hallucinated baselines or numbers, typed knowledge graph integration, multi-horizon monitoring plans, structured JSON APIs, and a comprehensive 79-test automated test suite.
   </div>
