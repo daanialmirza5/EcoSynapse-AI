@@ -1,10 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import RecommendationCard from "./RecommendationCard";
-import type { RecommendationOut } from "../../types/api";
+import type { ReasoningPath, RecommendationOut } from "../../types/api";
 
 const sampleRec: RecommendationOut = {
   id: "rec-1",
+  intervention_id: "crop_diversification_intercropping",
   title: "Crop diversification / intercropping",
   what_to_do: "Grow two crops together.",
   why_it_may_work: "Intercropping increases beneficial arthropod abundance.",
@@ -50,7 +51,37 @@ const sampleRec: RecommendationOut = {
   },
 };
 
+const samplePaths: ReasoningPath[] = [
+  {
+    variables: ["monoculture_land_use", "declining_biodiversity", "crop_diversification_intercropping"],
+    steps: [
+      {
+        from_node: "crop_diversification_intercropping",
+        relation: "may_improve",
+        to_node: "beneficial_arthropod_abundance",
+        evidence_strength: "moderate",
+        source_claim_id: "claim-1",
+      },
+    ],
+    narrative:
+      "Detected concern(s) [monoculture_land_use, declining_biodiversity] relate to candidate intervention 'Crop diversification / intercropping', which is linked in the knowledge graph to: beneficial_arthropod_abundance.",
+  },
+];
+
 describe("RecommendationCard", () => {
+  it("shows a 'Why this recommendation?' drill-down grounded in the real reasoning path", () => {
+    render(<RecommendationCard rec={sampleRec} reasoningPaths={samplePaths} />);
+    fireEvent.click(screen.getByText(/Why this recommendation\?/i));
+    expect(screen.getByText(/Because these conditions were detected/i)).toBeInTheDocument();
+    expect(screen.getByText(/monoculture land use/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Grow two crops together\./).length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("does not show the 'Why this recommendation?' drill-down when no matching path exists", () => {
+    render(<RecommendationCard rec={sampleRec} reasoningPaths={[]} />);
+    expect(screen.queryByText(/Why this recommendation\?/i)).not.toBeInTheDocument();
+  });
+
   it("renders the recommendation summary by default, evidence hidden", () => {
     render(<RecommendationCard rec={sampleRec} />);
     expect(screen.getByText(sampleRec.title)).toBeInTheDocument();

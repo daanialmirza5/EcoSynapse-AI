@@ -12,6 +12,12 @@ def test_retrieval_inspect_returns_trace(client):
     assert top["relevance_score"] > 0
     assert len(top["match_reasons"]) > 0
 
+    # Retrieval-channel breakdown: a judge should see how much of the score
+    # came from semantic vs. lexical matching, not just a combined number.
+    assert "semantic_score" in top and "lexical_score" in top
+    assert top["relevance_score"] == round(0.65 * top["semantic_score"] + 0.35 * top["lexical_score"], 4)
+    assert any(r["semantic_score"] > 0 or r["lexical_score"] > 0 for r in body["results"])
+
 
 def test_retrieval_expands_via_knowledge_graph(client):
     resp = client.post(

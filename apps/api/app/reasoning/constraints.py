@@ -22,6 +22,7 @@ CONCERN_TO_INTERVENTIONS: dict[str, list[str]] = {
         "agroforestry", "crop_diversification_intercropping",
         "native_hedgerow_habitat_strips", "integrated_pest_management",
     ],
+    "high_temperature": ["water_harvesting_soil_moisture_conservation"],
 }
 
 CONCERN_TO_NODE: dict[str, str] = {
@@ -33,6 +34,7 @@ CONCERN_TO_NODE: dict[str, str] = {
     "pesticide_pressure": "pesticide_use",
     "deforestation_pressure": "deforestation",
     "declining_biodiversity": "species_richness",
+    "high_temperature": "temperature",
 }
 
 CONCERN_EXPLANATIONS: dict[str, str] = {
@@ -44,6 +46,12 @@ CONCERN_EXPLANATIONS: dict[str, str] = {
     "deforestation_pressure": "Deforestation pressure was reported near or on this land.",
     "declining_biodiversity": "A declining biodiversity trend was reported by the user.",
     "extreme_soil_ph": "Soil pH is outside the 5.5-8.5 range commonly associated with healthy microbial activity; no cataloged intervention in this demo directly targets pH.",
+    "high_temperature": (
+        "Temperature is reported above 30°C. Elevated temperature combined with limited water availability "
+        "increases heat and moisture stress on vegetation and is associated with species range shifts (see source "
+        "s8); water-retention interventions may help buffer soil moisture under these conditions, though this is a "
+        "general inference rather than a source-specific test of temperature mitigation."
+    ),
 }
 
 
@@ -73,6 +81,8 @@ def detect_concerns(profile: EnvironmentalProfile) -> list[DetectedConcern]:
         concerns.append("deforestation_pressure")
     if profile.biodiversity_indicators.get("reported_trend") == "declining":
         concerns.append("declining_biodiversity")
+    if profile.temperature_c is not None and profile.temperature_c > 30:
+        concerns.append("high_temperature")
     return [DetectedConcern(key=c, explanation=CONCERN_EXPLANATIONS.get(c, c)) for c in concerns]
 
 

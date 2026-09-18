@@ -48,6 +48,11 @@ class MonitoringPlanItem(BaseModel):
 
 class RecommendationOut(BaseModel):
     id: str
+    intervention_id: str | None = Field(
+        default=None,
+        description="Links this recommendation to its knowledge-graph node id, so a caller can find the "
+        "exact reasoning-path entries (in AssessmentOut.reasoning_paths) that produced it.",
+    )
     title: str
     what_to_do: str
     why_it_may_work: str

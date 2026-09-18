@@ -1,0 +1,17 @@
+{
+  "id": "climate_water_biodiversity",
+  "description": "Challenge suggested case 4: high temperature + low rainfall (water stress) + species decline, land use not monoculture -- tests the climate/water/biodiversity pairing distinct from the land-use/fragmentation pairing covered by the main demo scenario.",
+  "profile": {
+    "name": "Heat- and drought-stressed rangeland",
+    "ecosystem_type": "semi-arid",
+    "temperature_c": 34,
+    "rainfall_qualitative": "low",
+    "biodiversity_indicators": {"reported_trend": "declining"}
+  },
+  "expect": {
+    "min_variables_considered": 3,
+    "min_recommendations": 1,
+    "must_mention_any_recommendation_title_containing": ["Water harvesting", "Agroforestry", "hedgerow", "pest management", "Crop diversification"],
+    "insufficient_data_expected": false
+  }
+}

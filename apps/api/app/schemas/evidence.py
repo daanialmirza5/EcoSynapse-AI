@@ -37,6 +37,9 @@ class RetrievedEvidenceItem(BaseModel):
     source: ScientificSourceOut
     excerpt: str
     relevance_score: float
+    semantic_score: float = 0.0
+    lexical_score: float = 0.0
+    matched_graph_concepts: list[str] = []
     match_reasons: list[str]
 
 

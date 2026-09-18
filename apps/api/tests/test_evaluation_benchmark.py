@@ -107,6 +107,25 @@ def test_evaluation_case(client, case):
             assert entry["target"] is None or "establish a baseline first" not in entry["target"].lower()
 
 
+def test_high_temperature_is_detected_as_a_concern(client):
+    # Regression guard for a real gap found while compiling the knowledge
+    # coverage matrix: temperature (a mandatory climate factor) previously
+    # had no concern-detection rule at all -- it was tracked as a "known
+    # variable" but never independently triggered any candidate intervention.
+    profile = client.post(
+        "/api/v1/profiles",
+        json={
+            "name": "Heat stress check",
+            "ecosystem_type": "semi-arid",
+            "temperature_c": 35,
+            "rainfall_qualitative": "low",
+            "biodiversity_indicators": {"reported_trend": "declining"},
+        },
+    ).json()
+    assessment = client.post("/api/v1/assessments", json={"profile_id": profile["id"]}).json()
+    assert "high temperature" in assessment["assessment_summary"].lower() or "temperature" in assessment["assessment_summary"].lower()
+
+
 def test_benchmark_has_multiple_curated_cases():
     # Guards against the benchmark silently losing coverage.
     assert len(CASES) >= 3

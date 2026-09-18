@@ -29,6 +29,13 @@ class RetrievedItem:
     source: ScientificSource
     excerpt: str
     relevance_score: float
+    # Broken out separately (not just folded into relevance_score) so a
+    # caller can see exactly how much each retrieval channel contributed to
+    # this result -- the "why was this source selected?" question a judge
+    # would ask about a RAG pipeline.
+    semantic_score: float = 0.0
+    lexical_score: float = 0.0
+    matched_graph_concepts: list[str] = field(default_factory=list)
     match_reasons: list[str] = field(default_factory=list)
 
 
@@ -138,6 +145,9 @@ def retrieve_with_trace(
                 source=source,
                 excerpt=chunk.text,
                 relevance_score=round(combined[cid], 4),
+                semantic_score=round(semantic_scores.get(cid, 0.0), 4),
+                lexical_score=round(lexical_scores.get(cid, 0.0), 4),
+                matched_graph_concepts=overlap_concepts,
                 match_reasons=reasons,
             )
         )

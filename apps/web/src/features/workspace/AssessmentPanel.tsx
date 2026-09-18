@@ -120,7 +120,7 @@ export default function AssessmentPanel({
           ) : (
             <div className="space-y-4">
               {assessment.recommendations.map((rec) => (
-                <RecommendationCard key={rec.id} rec={rec} />
+                <RecommendationCard key={rec.id} rec={rec} reasoningPaths={assessment.reasoning_paths} />
               ))}
             </div>
           )}

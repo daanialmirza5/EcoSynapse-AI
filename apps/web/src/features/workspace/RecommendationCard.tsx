@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { RecommendationOut } from "../../types/api";
+import type { ReasoningPath, RecommendationOut } from "../../types/api";
 import {
   ClaimTypeBadge,
   ConfidenceBadge,
@@ -7,8 +7,15 @@ import {
   EvidenceStrengthBadge,
   TimeHorizonBadge,
 } from "../../components/ui";
+import WhyThisRecommendation from "./WhyThisRecommendation";
 
-export default function RecommendationCard({ rec }: { rec: RecommendationOut }) {
+export default function RecommendationCard({
+  rec,
+  reasoningPaths = [],
+}: {
+  rec: RecommendationOut;
+  reasoningPaths?: ReasoningPath[];
+}) {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -31,6 +38,8 @@ export default function RecommendationCard({ rec }: { rec: RecommendationOut }) 
         Confidence, evidence strength, and data completeness are reported separately by design &mdash; see{" "}
         <a href="/docs" className="underline">Methodology</a> for how each is calculated.
       </p>
+
+      <WhyThisRecommendation rec={rec} reasoningPaths={reasoningPaths} />
 
       <div className="mt-3 flex flex-wrap gap-1.5">
         {rec.impacted_metrics.map((m) => (

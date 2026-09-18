@@ -48,6 +48,24 @@ def test_demo_scenario_produces_grounded_recommendations(client):
                 assert ev["evidence_status"] == "insufficient_evidence"
 
 
+def test_recommendation_links_to_its_own_reasoning_path(client):
+    # Powers the frontend's "Why this recommendation?" drill-down: every
+    # recommendation's intervention_id must be findable inside at least one
+    # of the assessment's reasoning_paths, so the UI can show the exact
+    # variables/steps that produced THIS recommendation, not just a generic
+    # assessment-wide trace.
+    profile = _make_demo_profile(client)
+    body = client.post("/api/v1/assessments", json={"profile_id": profile["id"]}).json()
+
+    assert len(body["recommendations"]) > 0
+    for rec in body["recommendations"]:
+        assert rec["intervention_id"], f"recommendation {rec['title']} missing intervention_id"
+        matching_paths = [p for p in body["reasoning_paths"] if rec["intervention_id"] in p["variables"]]
+        assert matching_paths, f"no reasoning path found for recommendation {rec['title']}"
+        # The path must actually mention this recommendation's title in its narrative.
+        assert any(rec["title"] in p["narrative"] for p in matching_paths)
+
+
 def test_agroforestry_recommendation_is_not_overclaimed(client):
     profile = _make_demo_profile(client)
     body = client.post("/api/v1/assessments", json={"profile_id": profile["id"]}).json()

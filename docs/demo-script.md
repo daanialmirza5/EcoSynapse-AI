@@ -1,4 +1,4 @@
-# Demo scripts (60s / 3min / 5min)
+# Demo scripts (60s / 3min / 5min / technical judge walkthrough)
 
 Prerequisites: backend running on `:8000`, frontend on `:5173` (see README
 §11). Open the frontend at `http://localhost:5173`.
@@ -71,8 +71,9 @@ biodiversity indicator — all extracted deterministically, visible immediately.
 ## 5. Retrieval and knowledge graph (45s)
 Switch to **Evidence Explorer**. Run the pre-filled retrieval query. Point
 out the trace: graph concepts matched, terms expanded via the knowledge
-graph, semantic vs. lexical candidate counts, and per-result "why matched"
-reasons. Then open **Knowledge Graph**, filter to `intervention` nodes, click
+graph, and — per result — the separate **semantic** and **lexical** score
+badges plus any matched graph concept, not just one combined number. Then
+open **Knowledge Graph**, filter to `intervention` nodes, click
 `agroforestry`, and show its typed edges with evidence-strength color coding.
 
 ## 6. Multi-variable reasoning (30s)
@@ -88,6 +89,12 @@ confidence, impacted metrics, supported-claim ratio, heuristic score — and
 say out loud that the heuristic is explicitly labeled a prototype, not a
 validated biodiversity index.
 
+## 7b. "Why this recommendation?" (30s)
+Back in the Workspace, click **Why this recommendation?** on any card. Show
+the "Because these conditions were detected -> They connect through -> 
+Evidence -> Therefore" breakdown — this is the exact reasoning path that
+produced *this* recommendation, not a generic assessment-wide trace.
+
 ## 8. Claim-level evidence (45s)
 Back in the Workspace, expand the **Agroforestry** recommendation's evidence
 table. Read the honest finding aloud: *"no unequivocal effect on
@@ -102,12 +109,15 @@ Still expanded, show the monitoring plan table: method, frequency, and the
 target column reading *"Establish a baseline first..."* — emphasize that no
 number was invented.
 
-## 10. Change an input (20s)
-Go to **Profile Editor**, change soil pH to `7.2`, save.
+## 10. Conflicting input (20s)
+In the chat, type a value that contradicts what was already stated (e.g. if
+rainfall was said to be low earlier, type *"Actually, rainfall is high."*).
+Show the red **Conflict detected** banner: previous value, new value, and
+which one reasoning now uses.
 
 ## 11. Reassess and show adaptation (30s)
-Back in Workspace, click **Reassess**. Show the version bump (v1 → v2) and
-the diff panel calling out exactly the `soil_ph` field change.
+Click **Reassess** (the banner prompts exactly this). Show the version bump
+(v1 → v2) and the diff panel calling out the changed field.
 
 ## 12. Technical differentiation (30s)
 Close on **Methodology**: the reasoning engine is deterministic Python, not
@@ -121,3 +131,34 @@ recalled from memory.
 **Total: ~5 minutes.** If time-constrained, prioritize steps 4, 6, 8, 9, 11 —
 they are the ones that most directly demonstrate depth of reasoning (30%),
 scientific grounding (25%), and knowledge system design (20%).
+
+## Technical judge walkthrough (self-paced, no time limit)
+
+For a judge who wants to inspect rather than watch a scripted flow:
+
+1. **Read the code, not just the demo.** Point them at
+   `docs/reasoning-methodology.md` (maps every one of the 10 pipeline steps
+   to its exact function) and `docs/scientific-grounding.md` (how each of
+   the 12 sources was verified, with two worked honesty examples).
+2. **Hit the API directly.** `GET /docs` for interactive OpenAPI; try
+   `POST /api/v1/retrieval/inspect` with an arbitrary query and inspect the
+   per-result `semantic_score`/`lexical_score`/`matched_graph_concepts`
+   breakdown.
+3. **Try to break it.** `apps/api/tests/test_red_team_hallucination.py` is
+   the actual adversarial test suite we ran against ourselves — walk through
+   each test name; every one describes a specific failure mode (fabricated
+   percentages, user-asserted confidence, hedged/hypothetical claims,
+   ecosystem-context mismatch, weak evidence outranking strong evidence) and
+   shows it's guarded against, not just claimed.
+4. **Check the audit trail.** `docs/engineering-audit.md` documents two real
+   bugs found by testing against actual PostgreSQL instead of only SQLite,
+   including exactly how each was found and fixed — offered as evidence this
+   wasn't only tested against the happy path.
+5. **Run the suite yourself.** `cd apps/api && pytest -q` (61 tests) and
+   `cd apps/web && npm test` (18 tests). Nothing here is asserted without a
+   command to reproduce it.
+6. **Push on a weak spot.** Ask about pgvector (not wired in, documented
+   trade-off in `docs/database-schema.md`), the heuristic ranking (labeled a
+   prototype everywhere it's surfaced), or the rule-based NLU's coverage
+   limits (deliberate, documented, testable trade-off vs. an LLM that could
+   hallucinate).

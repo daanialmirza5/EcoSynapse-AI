@@ -56,6 +56,13 @@ export default function EvidenceExplorer() {
                     {r.source.organization} {r.source.publication_year ? `(${r.source.publication_year})` : ""}
                   </div>
                   <div className="text-xs text-stone-600 italic mt-1">&ldquo;{r.excerpt}&rdquo;</div>
+                  <div className="flex gap-1.5 flex-wrap mt-1.5">
+                    <span className="badge bg-sky-100 text-sky-800">semantic {r.semantic_score.toFixed(2)}</span>
+                    <span className="badge bg-indigo-100 text-indigo-800">lexical {r.lexical_score.toFixed(2)}</span>
+                    {r.matched_graph_concepts.map((c) => (
+                      <span key={c} className="badge bg-purple-100 text-purple-800">graph: {c.replace(/_/g, " ")}</span>
+                    ))}
+                  </div>
                   <div className="text-xs text-stone-500 mt-1">Why matched: {r.match_reasons.join("; ")}</div>
                 </div>
               ))}

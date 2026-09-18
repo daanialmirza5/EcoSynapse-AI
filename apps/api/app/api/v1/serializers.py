@@ -15,6 +15,7 @@ from app.schemas.assessment import (
 def serialize_recommendation(rec: Recommendation) -> RecommendationOut:
     return RecommendationOut(
         id=rec.id,
+        intervention_id=rec.intervention_id,
         title=rec.title,
         what_to_do=rec.what_to_do,
         why_it_may_work=rec.why_it_may_work,

@@ -11,6 +11,13 @@ knowledge graph -> constraint checking -> claim verification -> monitoring
 plan) with a conversational UI on top. Read `docs/judge-story.md` for the
 elevator pitch and `docs/architecture.md` for the technical shape.
 
+Two competition-focused documents worth reading before anything else:
+`docs/darukaa-requirement-matrix.md` (every challenge requirement mapped to
+its implementation/test/status) and `docs/knowledge-coverage-matrix.md`
+(every mandatory metric traced through sources -> graph -> retrieval ->
+reasoning -> recommendations -> monitoring, including the one honest gap:
+soil pH has no cataloged intervention yet).
+
 ## Repository structure
 
 ```
@@ -164,6 +171,9 @@ the canonical demo path end to end.
 | Frontend calls hit 404 after a split deployment | `VITE_API_BASE_URL` not set at build time | Set it in the hosting platform's env vars and rebuild (it's a build-time, not runtime, Vite env var) |
 | `docker compose up` fails with "port already allocated" | Something else on the host is using that port (commonly 5432) | The `db` service intentionally doesn't publish 5432 to the host anymore; check `docker ps`/`Get-NetTCPConnection` for the actual conflicting process before assuming it's this project |
 | A new Alembic migration fails on SQLite with "near ALTER: syntax error" | SQLite has no native `ALTER COLUMN` | Wrap the operation in `with op.batch_alter_table(...) as batch_op:` |
+| A keyword extractor rule fires on the wrong input (e.g. an ecosystem name accidentally matches a climate/soil keyword) | Substring matching is order- and collision-sensitive -- see the "semi-arid" vs. "arid" bug in `docs/engineering-audit.md`/`test_extraction.py` | Prefer a direct-statement regex first, fall back to indirect keyword matching only when no direct pattern hits, and explicitly guard known collision substrings |
+
+**Before adding any new regex/keyword rule to `app/conversations/extraction.py`, add an adversarial test to `tests/test_red_team_hallucination.py` first** -- two real extraction bugs were found this way (an "assume X" instruction accepted as fact, and "semi-arid" silently overriding an explicit "rainfall is high" statement), not by inspection.
 
 ## Contributing
 

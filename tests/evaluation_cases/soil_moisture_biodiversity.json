@@ -1,0 +1,17 @@
+{
+  "id": "soil_moisture_biodiversity",
+  "description": "Challenge suggested case 2: low organic carbon + low soil moisture + declining species richness, without a stated land-use or rainfall concern -- tests that soil-focused concerns alone (not just the land-use/water combination in the main demo scenario) still produce grounded, multi-variable reasoning.",
+  "profile": {
+    "name": "Soil-focused smallholding",
+    "ecosystem_type": "temperate",
+    "soil_organic_carbon": 0.5,
+    "soil_moisture": 12,
+    "biodiversity_indicators": {"reported_trend": "declining"}
+  },
+  "expect": {
+    "min_variables_considered": 3,
+    "min_recommendations": 1,
+    "must_mention_any_recommendation_title_containing": ["Cover cropping", "Water harvesting", "Agroforestry"],
+    "insufficient_data_expected": false
+  }
+}

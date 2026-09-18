@@ -5,7 +5,8 @@ import { useWorkspace } from "../hooks/useWorkspaceState";
 import ChatPanel from "../features/workspace/ChatPanel";
 import ProfilePanel from "../features/workspace/ProfilePanel";
 import AssessmentPanel from "../features/workspace/AssessmentPanel";
-import type { ClarifyingQuestion } from "../types/api";
+import ConflictBanner from "../features/workspace/ConflictBanner";
+import type { ClarifyingQuestion, ConversationTurnResponse } from "../types/api";
 import { LoadingState } from "../components/ui";
 
 export default function Workspace() {
@@ -14,6 +15,7 @@ export default function Workspace() {
   const [clarifyingQuestions, setClarifyingQuestions] = useState<ClarifyingQuestion[]>([]);
   const [completeness, setCompleteness] = useState<number | null>(null);
   const [readyForAssessment, setReadyForAssessment] = useState(false);
+  const [conflicts, setConflicts] = useState<ConversationTurnResponse["conflicts"]>([]);
 
   const createConversation = useMutation({
     mutationFn: () => api.createConversation("Assessment workspace session"),
@@ -53,6 +55,7 @@ export default function Workspace() {
             setClarifyingQuestions(turn.clarifying_questions);
             setCompleteness(turn.profile_completeness);
             setReadyForAssessment(turn.ready_for_assessment);
+            setConflicts(turn.conflicts);
           }}
         />
         {profileId ? (
@@ -63,6 +66,8 @@ export default function Workspace() {
           </div>
         )}
       </div>
+
+      <ConflictBanner conflicts={conflicts} hasExistingAssessment={!!assessmentId} />
 
       {profileId && (
         <AssessmentPanel

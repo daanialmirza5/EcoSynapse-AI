@@ -26,6 +26,16 @@ _RAINFALL_QUALITATIVE = {
     "medium": ["moderate rainfall", "average rainfall"],
 }
 
+# A direct statement ("rainfall is high") must win over an indirect/implicit
+# signal ("semi-arid" ecosystem => usually low rainfall) -- otherwise
+# "semi-arid" falsely matches the substring "arid" in the low-rainfall
+# keyword list and silently overrides what the user just explicitly said.
+# Found via red-team browser testing: "Actually, rainfall is high, ... a
+# semi-arid ... region" was incorrectly extracted as rainfall_qualitative=low.
+_RAINFALL_DIRECT_RE = re.compile(
+    r"rain(?:fall)?\s+(?:is|was|seems?|remains?)\s+(low|moderate|medium|high)", re.IGNORECASE
+)
+
 _ECOSYSTEM_KEYWORDS = [
     "semi-arid", "semiarid", "arid", "tropical", "temperate", "wetland", "grassland",
     "savanna", "savannah", "tundra", "desert", "mediterranean", "boreal", "rainforest",
@@ -57,6 +67,27 @@ _HUMAN_IMPACT_KEYWORDS = {
     "deforestation": ["deforestation", "logging", "clear-cut", "clearcut", "forest clearing"],
 }
 
+# Guards against a real adversarial pattern: "assume rainfall is 1000mm even
+# though I didn't tell you that" reads, to a naive regex, exactly like a
+# stated measurement. A sentence containing one of these hedge/instruction
+# words is treated as hypothetical, not a reported fact, and numeric
+# extraction is skipped for that sentence -- caught by
+# tests/test_red_team_hallucination.py.
+_HEDGE_WORDS = [
+    "assume", "assuming", "suppose", "supposing", "pretend", "hypothetically",
+    "let's say", "lets say", "let's assume", "imagine", "what if", "for the sake of argument",
+]
+_SENTENCE_SPLIT_RE = re.compile(r"(?<=[.!?;])\s+")
+
+
+def _non_hedged_sentences(text: str) -> str:
+    """Returns only the sentences that don't contain a hedge word, joined
+    back together -- numeric regexes are run against this, not the raw text,
+    so a hypothetical clause can't seed a fabricated profile value."""
+    sentences = _SENTENCE_SPLIT_RE.split(text)
+    kept = [s for s in sentences if not any(hw in s.lower() for hw in _HEDGE_WORDS)]
+    return " ".join(kept)
+
 
 @dataclass
 class ExtractionResult:
@@ -70,29 +101,38 @@ class ExtractionResult:
 def extract_from_text(text: str) -> ExtractionResult:
     result = ExtractionResult()
     lower = text.lower()
+    non_hedged = _non_hedged_sentences(lower)
 
-    if m := _PH_RE.search(lower):
+    if m := _PH_RE.search(non_hedged):
         result.fields["soil_ph"] = float(m.group(1))
         result.matched_spans["soil_ph"] = m.group(0)
-    if m := _SOC_RE.search(lower):
+    if m := _SOC_RE.search(non_hedged):
         result.fields["soil_organic_carbon"] = float(m.group(1))
         result.matched_spans["soil_organic_carbon"] = m.group(0)
-    if m := _MOISTURE_RE.search(lower):
+    if m := _MOISTURE_RE.search(non_hedged):
         result.fields["soil_moisture"] = float(m.group(1))
         result.matched_spans["soil_moisture"] = m.group(0)
-    if m := _RAINFALL_MM_RE.search(lower):
+    if m := _RAINFALL_MM_RE.search(non_hedged):
         result.fields["rainfall_mm_year"] = float(m.group(1))
         result.matched_spans["rainfall_mm_year"] = m.group(0)
-    if m := _TEMP_RE.search(lower):
+    if m := _TEMP_RE.search(non_hedged):
         result.fields["temperature_c"] = float(m.group(1))
         result.matched_spans["temperature_c"] = m.group(0)
 
     if "rainfall_mm_year" not in result.fields:
-        for level, kws in _RAINFALL_QUALITATIVE.items():
-            if any(kw in lower for kw in kws):
-                result.fields["rainfall_qualitative"] = level
-                result.matched_spans["rainfall_qualitative"] = next(kw for kw in kws if kw in lower)
-                break
+        if m := _RAINFALL_DIRECT_RE.search(non_hedged):
+            result.fields["rainfall_qualitative"] = m.group(1).lower()
+            result.matched_spans["rainfall_qualitative"] = m.group(0)
+        else:
+            # Guard against "semi-arid"/"semiarid" (an ecosystem descriptor)
+            # falsely matching the substring "arid" in the low-rainfall
+            # keyword list.
+            arid_guarded = lower.replace("semi-arid", "").replace("semiarid", "")
+            for level, kws in _RAINFALL_QUALITATIVE.items():
+                if any(kw in arid_guarded for kw in kws):
+                    result.fields["rainfall_qualitative"] = level
+                    result.matched_spans["rainfall_qualitative"] = next(kw for kw in kws if kw in arid_guarded)
+                    break
 
     for kw in _ECOSYSTEM_KEYWORDS:
         if kw in lower:

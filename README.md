@@ -273,15 +273,18 @@ Covered above in [Local setup](#11-local-setup). Frontend dev server proxies
 ## 16. Running tests
 
 ```powershell
-# Backend: 45 tests covering extraction, clarifying questions, the full
+# Backend: 61 tests covering extraction, clarifying questions, the full
 # reasoning pipeline (including the challenge demo scenario), evidence
-# verification, retrieval, the knowledge graph, error handling, and a
-# regression test for a real Postgres-only bug (see docs/engineering-audit.md).
+# verification, retrieval, the knowledge graph, error handling, a
+# regression test for a real Postgres-only bug, and a 10-test adversarial
+# ("red-team") suite targeting hallucination/scientific-safety failure modes
+# (see docs/engineering-audit.md and docs/darukaa-evaluation.md).
 cd apps\api
 .\.venv\Scripts\python.exe -m pytest -q
 
-# Frontend: 13 component tests covering loading/empty/error states,
-# evidence rendering, and the "never fabricate a numeric target" invariant.
+# Frontend: 18 component tests covering loading/empty/error states, evidence
+# rendering, the "never fabricate a numeric target" invariant, the
+# conflict-detection banner, and the "why this recommendation?" drill-down.
 cd apps\web
 npm test
 ```
@@ -392,4 +395,7 @@ daruka/
 - [docs/judge-story.md](docs/judge-story.md) — the narrative case for judges
 - [docs/team-handoff.md](docs/team-handoff.md) — onboarding for a new teammate
 - [docs/competition-readiness.md](docs/competition-readiness.md)
+- [docs/darukaa-requirement-matrix.md](docs/darukaa-requirement-matrix.md) — every challenge requirement mapped to implementation/test/status
+- [docs/darukaa-evaluation.md](docs/darukaa-evaluation.md) — the challenge's own rubric weighting mapped to what/how/test
+- [docs/knowledge-coverage-matrix.md](docs/knowledge-coverage-matrix.md) — every mandatory metric traced through sources → graph → retrieval → reasoning → monitoring
 - [CONTRIBUTING.md](CONTRIBUTING.md)

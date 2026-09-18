@@ -111,6 +111,9 @@ def inspect_retrieval(payload: RetrievalInspectRequest, db: Session = Depends(ge
                 source=ScientificSourceOut.model_validate(r.source),
                 excerpt=r.excerpt,
                 relevance_score=r.relevance_score,
+                semantic_score=r.semantic_score,
+                lexical_score=r.lexical_score,
+                matched_graph_concepts=r.matched_graph_concepts,
                 match_reasons=r.match_reasons,
             )
             for r in trace.results

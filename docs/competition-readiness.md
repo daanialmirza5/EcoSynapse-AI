@@ -7,6 +7,12 @@ system design 20%, Conversational intelligence 15%, Output clarity 10%).
 rubric can produce one; what follows is evidence for and against each
 dimension, plus honest gaps.
 
+See also: `docs/darukaa-requirement-matrix.md` (every requirement mapped to
+implementation/test/status), `docs/darukaa-evaluation.md` (the same rubric
+categories mapped to what/how/test), and `docs/knowledge-coverage-matrix.md`
+(every mandatory metric traced end-to-end through sources, graph, retrieval,
+reasoning, and monitoring).
+
 ## Technical completeness
 
 - Backend: FastAPI + SQLAlchemy + Alembic, 45 passing tests (SQLite and
@@ -44,7 +50,14 @@ dimension, plus honest gaps.
 
 - Hybrid retrieval (semantic + lexical + knowledge-graph term expansion),
   fully inspectable via `POST /retrieval/inspect` and the Evidence Explorer
-  UI -- not asserted, demonstrably runnable.
+  UI -- not asserted, demonstrably runnable. Each result now reports its
+  semantic score, lexical score, and matched graph concepts *separately*
+  (previously only a combined score was shown), so a judge can see exactly
+  how much each retrieval channel contributed.
+- `docs/knowledge-coverage-matrix.md` traces every mandatory metric
+  end-to-end through sources, graph nodes, retrieval vocabulary, reasoning
+  rules, recommendation types, and monitoring indicators -- and honestly
+  flags the one metric (soil pH) with no cataloged intervention yet.
 - Typed knowledge graph (23 nodes, 22 edges) with evidence-strength labels
   on every edge; multi-hop traversal used by the reasoning engine.
 - Gap (documented, not hidden): default embedding is a deterministic
@@ -70,6 +83,14 @@ dimension, plus honest gaps.
 - Confidence, evidence strength, and data completeness are reported as
   three distinct values (not conflated into one opaque number), each with
   a documented calculation.
+- Per-recommendation "Why this recommendation?" drill-down: shows the exact
+  detected conditions, knowledge-graph steps, and evidence that produced
+  *that specific* recommendation (not a generic assessment-wide trace),
+  correlated via the recommendation's own `intervention_id`.
+- A 10-test adversarial ("red-team") suite
+  (`apps/api/tests/test_red_team_hallucination.py`) actively tries to break
+  the system's scientific-safety guarantees -- and found and fixed two real
+  bugs in the process (see below).
 
 ## Conversational intelligence (15% of rubric)
 
@@ -78,12 +99,22 @@ dimension, plus honest gaps.
   trade-off, not hidden.
 - Up to 3 prioritized clarifying questions per turn, not an exhaustive form.
 - Multi-turn memory via persisted `Conversation`/`EnvironmentalProfile`;
-  conflicting values are detected and surfaced, not silently overwritten.
+  conflicting values are detected and surfaced, not silently overwritten --
+  **the UI now shows an explicit "Conflict detected: previous value -> new
+  value" banner** (previously the backend computed this but it never reached
+  the screen; fixed this pass).
 - Both natural-language and structured-JSON input accepted in the same
-  message.
-- Gap: extraction will miss phrasings outside its regex patterns rather
-  than attempting a best-effort guess -- a deliberate scientific-integrity
-  trade-off, but a real coverage limitation for free-form phrasing.
+  message, entering the same reasoning pipeline.
+- Two real extraction bugs found by red-teaming and fixed this pass: (1) an
+  adversarial "assume rainfall is 1000mm" instruction was being accepted as
+  a real stated measurement; (2) "semi-arid" (an ecosystem descriptor) was
+  falsely triggering "low rainfall" via a substring match on "arid",
+  silently overriding an explicit "rainfall is high" statement in the same
+  message. Both now have regression tests.
+- Gap: extraction will still miss phrasings outside its regex patterns
+  rather than attempting a best-effort guess -- a deliberate
+  scientific-integrity trade-off, but a real coverage limitation for
+  free-form phrasing.
 
 ## Output clarity (10% of rubric)
 
@@ -110,29 +141,39 @@ dimension, plus honest gaps.
 
 ## Testing
 
-- 45 backend tests (pytest), 13 frontend tests (vitest), all passing as of
+- 61 backend tests (pytest), 18 frontend tests (vitest), all passing as of
   this writing against both SQLite and real Postgres.
-- A 6-case evaluation benchmark exercising schema validity, citation
-  coverage, unsupported-claim rate, and ecosystem-mismatch detection --
-  explicitly labeled a prototype evaluation, not an expert-labeled
-  benchmark (see `docs/evaluation.md`).
+- An 8-case evaluation benchmark exercising schema validity, citation
+  coverage, unsupported-claim rate, ecosystem-mismatch detection, and
+  baseline-aware monitoring -- explicitly labeled a prototype evaluation,
+  not an expert-labeled benchmark (see `docs/evaluation.md`).
+- A dedicated 10-test adversarial ("red-team") suite
+  (`test_red_team_hallucination.py`) specifically targeting hallucination
+  and scientific-safety failure modes -- found and fixed two real bugs (an
+  "assume X" instruction being accepted as fact, and "semi-arid" falsely
+  triggering "low rainfall") rather than only confirming things already worked.
 - CI runs backend tests against both SQLite and a real Postgres service
-  container, frontend lint/typecheck/test/build, and a knowledge-corpus
-  validation step.
+  container, frontend lint/typecheck/test/build, a knowledge-corpus
+  validation step, and a dependency vulnerability scan (`pip-audit`).
 
 ## Demo readiness
 
-- `docs/demo-script.md` provides 60-second, 3-minute, and 5-minute scripted
-  walkthroughs, all exercisable against the actual running system (no
-  scripted fake data).
+- `docs/demo-script.md` provides 60-second, 3-minute, 5-minute, and
+  self-paced technical-judge-walkthrough versions, all exercisable against
+  the actual running system (no scripted fake data).
 - The "load the challenge demo scenario" shortcut in the Workspace chat
   reproduces the canonical demo path in one click.
+- The conflict-detection and "why this recommendation?" features are now
+  visible in the UI (previously computed by the backend but not surfaced),
+  making the conversational-intelligence and depth-of-reasoning criteria
+  directly observable rather than requiring API inspection.
 
 ## Summary of what would most improve the next iteration
 
 In priority order: (1) complete the live deployment once credentials are
 available, (2) expand the source corpus with a second research pass focused
-on the currently-`hypothesis`-only edges, (3) an independent accessibility
+on the currently-`hypothesis`-only edges and the soil-pH intervention gap
+(see `docs/knowledge-coverage-matrix.md`), (3) an independent accessibility
 audit, (4) a load/performance test once real usage patterns exist to test
 against, (5) resolve the react-router moderate advisory via a tested v7
 migration (deferred this pass -- see `docs/evaluation-report.md`).

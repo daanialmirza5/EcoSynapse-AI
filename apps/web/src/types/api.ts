@@ -80,6 +80,9 @@ export interface RetrievedEvidenceItem {
   source: ScientificSourceOut;
   excerpt: string;
   relevance_score: number;
+  semantic_score: number;
+  lexical_score: number;
+  matched_graph_concepts: string[];
   match_reasons: string[];
 }
 
@@ -143,6 +146,7 @@ export interface MonitoringPlanItem {
 
 export interface RecommendationOut {
   id: string;
+  intervention_id: string | null;
   title: string;
   what_to_do: string;
   why_it_may_work: string;
