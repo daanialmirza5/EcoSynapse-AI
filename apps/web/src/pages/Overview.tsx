@@ -92,7 +92,7 @@ export default function Overview() {
       <div className="max-w-5xl mx-auto px-6 md:px-10 space-y-16 mt-14">
         {/* Verified metrics */}
         <section>
-          {error && <ErrorState message="Could not reach the backend API. Is it running on port 8000?" />}
+          {error && <ErrorState message="Could not reach the backend API. Please check backend connection." />}
           {isLoading && <LoadingState message="Checking live system status..." />}
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {stats.map((s) => (

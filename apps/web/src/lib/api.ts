@@ -16,7 +16,12 @@ import type {
 // frontend calling a separately-hosted Railway backend), set
 // VITE_API_BASE_URL at build time to the backend's full origin
 // (e.g. https://ecosynapse-api.up.railway.app) -- see docs/deployment.md.
-const API_ROOT = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
+const API_ROOT = (
+  import.meta.env.VITE_API_BASE_URL ||
+  (typeof window !== "undefined" && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1"
+    ? "https://ecosynapse-ai.onrender.com"
+    : "")
+).replace(/\/$/, "");
 const API_BASE = `${API_ROOT}/api/v1`;
 
 class ApiError extends Error {
