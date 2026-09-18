@@ -82,9 +82,7 @@ def create_document():
 
     links = [
         ("GitHub Repository:", " https://github.com/daanialmirza5/EcoSynapse-AI"),
-        ("Live Cloud Demo (Frontend):", " https://ecosynapse-ai-1.onrender.com"),
-        ("Backend REST API Service:", " https://ecosynapse-ai.onrender.com"),
-        ("Interactive API Documentation (Swagger / OpenAPI):", " https://ecosynapse-ai.onrender.com/docs")
+        ("Live Cloud Demo (Frontend):", " https://ecosynapse-ai-1.onrender.com")
     ]
     for label, val in links:
         p = doc.add_paragraph(style='List Bullet')
