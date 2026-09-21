@@ -26,6 +26,9 @@ jobs:
       - name: Validate knowledge corpus
         working-directory: .
         run: python scripts/validate_knowledge.py
+      - name: Validate dataset schemas and domain rules
+        working-directory: .
+        run: python scripts/validate_dataset_schema.py
       - name: Run migrations against a throwaway sqlite DB
         run: |
           rm -f ci_check.db
