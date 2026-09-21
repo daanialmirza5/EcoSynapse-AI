@@ -2,7 +2,7 @@
 # Windows/PowerShell users: see README.md "Local setup (Windows)" for the
 # equivalent commands -- `make` is not assumed to be installed on Windows.
 
-.PHONY: api-install api-migrate api-seed api-dev api-test web-install web-dev web-build web-test test up down
+.PHONY: api-install api-migrate api-seed api-dev api-test web-install web-dev web-build web-test test validate benchmark backup up down
 
 api-install:
 	cd apps/api && python -m venv .venv && . .venv/bin/activate && pip install -e ".[dev]"
@@ -18,6 +18,16 @@ api-dev:
 
 api-test:
 	cd apps/api && . .venv/bin/activate && pytest -q
+
+validate:
+	python scripts/validate_knowledge.py
+	python scripts/validate_dataset_schema.py
+
+benchmark:
+	python scripts/benchmark_retrieval.py
+
+backup:
+	python scripts/db_backup.py --backup --check
 
 web-install:
 	cd apps/web && npm install
@@ -38,3 +48,4 @@ up:
 
 down:
 	docker compose down
+
