@@ -29,6 +29,8 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name
 logger = logging.getLogger("ecosynapse")
 
 settings = get_settings()
+START_TIME = time.time()
+
 
 
 class MaxBodySizeMiddleware:
@@ -239,6 +241,10 @@ def health():
         "database": "ok" if db_ok else "unavailable",
         "llm_provider": get_llm_provider().name,
         "embedding_provider": settings.embedding_provider,
+        "telemetry": {
+            "uptime_seconds": round(time.time() - START_TIME, 2),
+            "system": "operational",
+        },
         "notes": notes,
         "knowledge_base": {
             "sources": source_count,
