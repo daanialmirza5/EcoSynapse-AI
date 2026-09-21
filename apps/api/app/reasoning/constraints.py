@@ -75,11 +75,13 @@ def detect_concerns(profile: EnvironmentalProfile) -> list[DetectedConcern]:
         concerns.append("water_scarcity")
     if profile.land_use_type and "monoculture" in profile.land_use_type.lower():
         concerns.append("monoculture_land_use")
-    if profile.human_impact_indicators.get("pesticide_use"):
+    human_impact = profile.human_impact_indicators or {}
+    if human_impact.get("pesticide_use"):
         concerns.append("pesticide_pressure")
-    if profile.human_impact_indicators.get("deforestation"):
+    if human_impact.get("deforestation"):
         concerns.append("deforestation_pressure")
-    if profile.biodiversity_indicators.get("reported_trend") == "declining":
+    bio_indicators = profile.biodiversity_indicators or {}
+    if bio_indicators.get("reported_trend") == "declining":
         concerns.append("declining_biodiversity")
     if profile.temperature_c is not None and profile.temperature_c > 30:
         concerns.append("high_temperature")
