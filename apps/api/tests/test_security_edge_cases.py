@@ -1,13 +1,9 @@
-import pytest
 from fastapi.testclient import TestClient
 
 
 def test_sql_injection_resilience(client: TestClient):
     # Test SQL injection string in conversation creation
-    payload = {
-        "title": "'; DROP TABLE conversations; --",
-        "session_id": "test-session-sqli",
-    }
+    payload = {"title": "'; DROP TABLE conversations; --"}
     res = client.post("/api/v1/conversations", json=payload)
     assert res.status_code == 201
     data = res.json()
@@ -16,6 +12,15 @@ def test_sql_injection_resilience(client: TestClient):
     # Verify tables still exist
     list_res = client.get("/api/v1/conversations")
     assert list_res.status_code == 200
+
+
+def test_unknown_session_id_returns_404(client: TestClient):
+    res = client.post(
+        "/api/v1/conversations",
+        json={"title": "Orphan", "session_id": "'; DROP TABLE user_sessions; --"},
+    )
+    assert res.status_code == 404
+    assert res.json()["detail"] == "Session not found"
 
 
 def test_nonexistent_ids_return_404(client: TestClient):

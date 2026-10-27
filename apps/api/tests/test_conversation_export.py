@@ -1,10 +1,9 @@
 from fastapi.testclient import TestClient
-from app.main import app
 
 
 def test_conversation_export_json_and_markdown(client: TestClient):
     # 1. Create a conversation
-    create_res = client.post("/api/v1/conversations", json={"title": "Soil Remediation Study", "session_id": "test-session-123"})
+    create_res = client.post("/api/v1/conversations", json={"title": "Soil Remediation Study"})
     assert create_res.status_code == 201
     conv_id = create_res.json()["id"]
 

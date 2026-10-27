@@ -1,7 +1,7 @@
 from __future__ import annotations
 
+from collections import defaultdict
 from dataclasses import dataclass, field
-from collections import defaultdict, deque
 from typing import Any
 
 

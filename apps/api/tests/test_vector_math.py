@@ -1,6 +1,8 @@
 import math
+
 import pytest
-from app.retrieval.vector_math import is_unit_vector, fast_cosine_similarity, batch_top_k_similarities
+
+from app.retrieval.vector_math import batch_top_k_similarities, fast_cosine_similarity, is_unit_vector
 
 
 def test_is_unit_vector():

@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.conversations.service import handle_user_turn
 from app.db.session import get_db
-from app.models.conversation import Conversation, Message
+from app.models.conversation import Conversation, Message, UserSession
 from app.schemas.conversation import (
     ClarifyingQuestion,
     ConversationCreate,
@@ -20,6 +20,8 @@ router = APIRouter(prefix="/conversations", tags=["conversations"])
 
 @router.post("", response_model=ConversationOut, status_code=201)
 def create_conversation(payload: ConversationCreate, db: Session = Depends(get_db)):
+    if payload.session_id is not None and db.get(UserSession, payload.session_id) is None:
+        raise HTTPException(status_code=404, detail="Session not found")
     conversation = Conversation(title=payload.title or "New assessment", session_id=payload.session_id)
     db.add(conversation)
     db.commit()

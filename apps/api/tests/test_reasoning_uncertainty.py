@@ -1,11 +1,10 @@
-import pytest
-from app.models.profile import EnvironmentalProfile
 from app.models.intervention import Intervention
+from app.models.profile import EnvironmentalProfile
 from app.reasoning.constraints import (
-    detect_concerns,
+    HEURISTIC_WEIGHTS,
     check_constraints,
     compute_heuristic_score,
-    HEURISTIC_WEIGHTS,
+    detect_concerns,
 )
 
 

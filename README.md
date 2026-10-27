@@ -5,7 +5,7 @@
 
 [![CI](https://github.com/daanialmirza5/EcoSynapse-AI/actions/workflows/ci.yml/badge.svg)](https://github.com/daanialmirza5/EcoSynapse-AI/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
-[![Tests: 79 Passing](https://img.shields.io/badge/Tests-79%20Passing-brightgreen.svg)](#testing)
+[![CI](https://github.com/daanialmirza5/EcoSynapse-AI/actions/workflows/ci.yml/badge.svg)](https://github.com/daanialmirza5/EcoSynapse-AI/actions/workflows/ci.yml)
 [![Python: 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/Frontend-React%2018-61DAFB.svg)](https://react.dev/)
@@ -503,7 +503,7 @@ For step-by-step production setup, refer to [docs/deployment.md](docs/deployment
 - [x] Actionable monitoring plan generation with metric time horizons
 - [x] Full React 18 + TypeScript frontend with 10 working views
 - [x] Docker Compose multi-service architecture
-- [x] 79 passing automated tests (61 backend, 18 frontend)
+- [x] Automated backend (pytest) and frontend (Vitest) test suites
 - [x] PostgreSQL compatibility and migrations
 - [x] Dependency security scan (0 vulnerabilities via pip-audit)
 

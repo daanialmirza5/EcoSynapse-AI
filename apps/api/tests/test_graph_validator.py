@@ -1,5 +1,4 @@
-import pytest
-from app.reasoning.graph_validator import validate_graph_topology, calculate_node_centrality
+from app.reasoning.graph_validator import calculate_node_centrality, validate_graph_topology
 
 
 def test_valid_graph_topology():

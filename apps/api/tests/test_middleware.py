@@ -1,9 +1,9 @@
-import pytest
 from starlette.applications import Starlette
 from starlette.responses import PlainTextResponse
 from starlette.routing import Route
 from starlette.testclient import TestClient
-from app.core.middleware import SecurityHeadersMiddleware, InMemoryRateLimiter, RateLimitMiddleware
+
+from app.core.middleware import InMemoryRateLimiter, RateLimitMiddleware, SecurityHeadersMiddleware
 
 
 def homepage(request):

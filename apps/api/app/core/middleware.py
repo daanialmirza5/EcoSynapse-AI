@@ -3,9 +3,10 @@ from __future__ import annotations
 import time
 from collections import defaultdict, deque
 from typing import Callable
+
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
-from starlette.responses import Response, JSONResponse
+from starlette.responses import JSONResponse, Response
 
 
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
